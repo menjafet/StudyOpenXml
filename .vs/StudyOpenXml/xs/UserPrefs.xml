@@ -1,0 +1,29 @@
+﻿<Properties StartupConfiguration="{AB35AB0E-5661-4B38-AA17-4898C4C77AA1}|Default">
+  <MonoDevelop.Ide.ItemProperties.StudyOpenXml PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="DocManipulation.cs">
+    <Files>
+      <File FileName="DocManipulation.cs" Line="8" Column="19" />
+      <File FileName="Program.cs" Line="6" Column="67" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="StudyOpenXml" expanded="True">
+            <Node name="StudyOpenXml" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>
