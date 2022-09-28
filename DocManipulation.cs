@@ -35,6 +35,19 @@ namespace StudyOpenXml
                 Paragraph para = body.AppendChild(new Paragraph());
                 Run run = para.AppendChild(new Run());
 
+                /*Prefer this way:
+
+                 Document document = new Document();
+                 Body body = new Body();
+                 Paragraph para = new Paragraph();
+                
+                 Then:
+                 document.append(body);
+                 body.append(para);
+                 para.append(run);
+                
+                 Really easier to understand this way, much less complex to read*/
+
                 run.AppendChild(new Text("Holii"));
 
                 //This could be the way to loop and create an .md from .docx
