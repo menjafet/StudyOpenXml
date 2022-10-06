@@ -3,4 +3,5 @@ using StudyOpenXml;
 
 Console.WriteLine("Hello, World!");
 
-DocManipulation.CreateDocument("/Users/fabianvalverde/Documents/StudyOpenXml/SampleFile.docx", "Style01", "Best Style");
+//DocManipulation.CreateDocument("/Users/fabianvalverde/Documents/StudyOpenXml/SampleFile.docx", "Style01", "Best Style");
+DocManipulation.CreateTable("/Users/fabianvalverde/Documents/StudyOpenXml/SampleFile.docx");

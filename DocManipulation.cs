@@ -48,22 +48,25 @@ namespace StudyOpenXml
                 
                  Really easier to understand this way, much less complex to read*/
 
-                run.AppendChild(new Text("Holii"));
+                run.AppendChild(new Text("My first text"));
 
-                //This could be the way to loop and create an .md from .docx
+                ////This could be the way to loop and create an .md from .docx
 
-                Paragraph[] paraArray = new Paragraph[2];
-                Run[] runArray = new Run[2];
-                paraArray[0] = body.AppendChild(new Paragraph());
-                paraArray[1] = body.AppendChild(new Paragraph());
-                runArray[0] = paraArray[0].AppendChild(new Run());
-                runArray[1] = paraArray[1].AppendChild(new Run());
+                //Paragraph[] paraArray = new Paragraph[2];
+                //Run[] runArray = new Run[2];
+                //paraArray[0] = body.AppendChild(new Paragraph());
+                //paraArray[1] = body.AppendChild(new Paragraph());
+                //runArray[0] = paraArray[0].AppendChild(new Run());
+                //runArray[1] = paraArray[1].AppendChild(new Run());
 
-                runArray[0].AppendChild(new Text("Everything Working"));
-                runArray[1].AppendChild(new Text("We can work now"));
+                //runArray[0].AppendChild(new Text("Everything Working"));
+                //runArray[1].AppendChild(new Text("We can work now"));
 
-                //Lets format a Paragraph
-                ParagraphProperties[] pPr = new ParagraphProperties[2];
+                ////Lets format a Paragraph
+                //ParagraphProperties[] pPr = new ParagraphProperties[2];
+                ParagraphProperties paraProperties = new ParagraphProperties();
+
+
 
                 //Get the first Paragraph of the document
                 Paragraph p = wordDocument.MainDocumentPart.Document.Body.Descendants<Paragraph>()
@@ -77,7 +80,7 @@ namespace StudyOpenXml
                 }
 
                 //Getting the first element Paragraph Properties
-                pPr[0] = p.Elements<ParagraphProperties>().First();
+                paraProperties = p.Elements<ParagraphProperties>().First();
 
                 //Looking for the stylespart (not exactly the styles itself) of the document
                 //(This is a new document, styles part aren't by default)
@@ -103,7 +106,7 @@ namespace StudyOpenXml
                     }
                 }
                 // Set the style of the paragraph.
-                pPr[0].ParagraphStyleId = new ParagraphStyleId() { Val = styleid };
+                paraProperties.ParagraphStyleId = new ParagraphStyleId { Val = styleid };
             }
         }
         //inside method
@@ -219,5 +222,75 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
             return styleId;
         }
 
+        // Insert a table into a word processing document.
+    public static void CreateTable(string filepath)
+    {
+            // Use the file name and path passed in as an argument 
+            // to open an existing Word 2007 document.
+
+            using (WordprocessingDocument wordDocument =
+                        WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+                // Insert other code here
+
+                //This piece is adding the main part of the document
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+
+                //Then, this is creating the structure to manipulate every part of the document
+                mainPart.Document = new Document();
+                Body body = mainPart.Document.AppendChild(new Body());
+                // Create an empty table.
+                Table table = new Table();
+
+            // Create a TableProperties object and specify its border information.
+            TableProperties tblProp = new TableProperties(
+                new TableBorders(
+                    new TopBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
+                    new BottomBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
+                    new LeftBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
+                    new RightBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
+                    new InsideHorizontalBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
+                    new InsideVerticalBorder() { Val = 
+                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 }
+                )
+            );
+
+            // Append the TableProperties object to the empty table.
+            table.AppendChild<TableProperties>(tblProp);
+
+            // Create a row.
+            TableRow tr = new TableRow();
+
+            // Create a cell.
+            TableCell tc1 = new TableCell();
+
+            // Specify the width property of the table cell.
+            tc1.Append(new TableCellProperties(
+                new TableCellWidth() { Type = TableWidthUnitValues.Nil, Width = "1440" }));
+
+            // Specify the table cell content.
+            tc1.Append(new Paragraph(new Run(new Text("some text"))));
+
+            // Append the table cell to the table row.
+            tr.Append(tc1);
+
+            // Create a second table cell by copying the OuterXml value of the first table cell.
+            TableCell tc2 = new TableCell(tc1.OuterXml);
+
+            // Append the table cell to the table row.
+            tr.Append(tc2);
+
+            // Append the table row to the table.
+            table.Append(tr);
+
+            // Append the table to the document.
+            wordDocument.MainDocumentPart.Document.Body.Append(table);
+        }
+    }
     }
 }
