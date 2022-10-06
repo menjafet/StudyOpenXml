@@ -222,6 +222,14 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
             return styleId;
         }
 
+
+
+
+
+
+        //THIS IS FOR TABLE!!!--------------------------------------------------------------------------------------------
+
+
         // Insert a table into a word processing document.
     public static void CreateTable(string filepath)
     {
@@ -238,58 +246,105 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
 
                 //Then, this is creating the structure to manipulate every part of the document
                 mainPart.Document = new Document();
-                Body body = mainPart.Document.AppendChild(new Body());
+                var body = mainPart.Document.AppendChild(new Body());
                 // Create an empty table.
+                //Look for table width!!!!!
                 Table table = new Table();
+                
 
-            // Create a TableProperties object and specify its border information.
-            TableProperties tblProp = new TableProperties(
-                new TableBorders(
-                    new TopBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
-                    new BottomBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
-                    new LeftBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
-                    new RightBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
-                    new InsideHorizontalBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 },
-                    new InsideVerticalBorder() { Val = 
-                        new EnumValue<BorderValues>(BorderValues.Dashed), Size = 24 }
-                )
-            );
+                var tableWidth = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };
+                var borderColor = "FF8000";
 
-            // Append the TableProperties object to the empty table.
-            table.AppendChild<TableProperties>(tblProp);
+                // Create a TableProperties object and specify its border information.
+                var tblProp = new TableProperties();
+                var tblBorder = new TableBorders();
 
-            // Create a row.
-            TableRow tr = new TableRow();
+                var topBorder = new TopBorder();
+                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                topBorder.Size = 8;
+                topBorder.Color = borderColor;
 
-            // Create a cell.
-            TableCell tc1 = new TableCell();
+                var bottomBorder = new BottomBorder();
+                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                bottomBorder.Size = 8;
+                bottomBorder.Color = borderColor;
 
-            // Specify the width property of the table cell.
-            tc1.Append(new TableCellProperties(
-                new TableCellWidth() { Type = TableWidthUnitValues.Nil, Width = "1440" }));
+                var rightBorder = new RightBorder();
+                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                rightBorder.Size = 8;
+                rightBorder.Color = borderColor;
 
-            // Specify the table cell content.
-            tc1.Append(new Paragraph(new Run(new Text("some text"))));
+                var leftBorder = new LeftBorder();
+                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                leftBorder.Size = 8;
+                leftBorder.Color = borderColor;
 
-            // Append the table cell to the table row.
-            tr.Append(tc1);
+                var insideHorizontalBorder = new InsideHorizontalBorder();
+                insideHorizontalBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                insideHorizontalBorder.Size = 8;
+                insideHorizontalBorder.Color = borderColor;
 
-            // Create a second table cell by copying the OuterXml value of the first table cell.
-            TableCell tc2 = new TableCell(tc1.OuterXml);
+                var insideVerticalBorder = new InsideVerticalBorder();
+                insideVerticalBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
+                insideVerticalBorder.Size = 8;
+                insideVerticalBorder.Color = borderColor;
 
-            // Append the table cell to the table row.
-            tr.Append(tc2);
+                tblBorder.AppendChild(topBorder);
+                tblBorder.AppendChild(bottomBorder);
+                tblBorder.AppendChild(rightBorder);
+                tblBorder.AppendChild(leftBorder);
+                tblBorder.AppendChild(insideHorizontalBorder);
+                tblBorder.AppendChild(insideVerticalBorder);
 
-            // Append the table row to the table.
-            table.Append(tr);
+                //tableProperties is parent of TableWidth
+                tblProp.Append(tableWidth);
 
-            // Append the table to the document.
-            wordDocument.MainDocumentPart.Document.Body.Append(table);
+                //same here
+                tblProp.AppendChild(tblBorder);
+
+                table.AppendChild(tblProp);
+
+                // Create a row
+                // look for tablerow alignment!!!!
+                //Here you can manipulate height
+                var row1 = new TableRow();
+
+                // Create a cell.
+                var cell1 = new TableCell();
+
+
+                var cellProp = new TableCellProperties();
+                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto };
+
+                //AutofitToFirstFixedWidthCell fit = new AutofitToFirstFixedWidthCell();
+
+                var para = new Paragraph(new Run(new Text("edited")));
+
+                // Specify the width property of the table cell.
+                //tc1.Append(new TableCellProperties(
+                //    new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "1440" }));
+
+                // Specify the table cell content.
+                cell1.Append(para);
+
+                // Append the table cell to the table row.
+                row1.Append(cell1);
+
+                // Create a second table cell by copying the OuterXml value of the first table cell.
+                TableCell cell2 = new TableCell(cell1.OuterXml);
+
+                cellProp.AppendChild(cellWidth);
+
+                cell1.AppendChild(cellProp);
+
+                // Append the table cell to the table row.
+                row1.Append(cell2);
+
+                // Append the table row to the table.
+                table.Append(row1);
+
+                // Append the table to the documents body.
+                body.Append(table);
         }
     }
     }
