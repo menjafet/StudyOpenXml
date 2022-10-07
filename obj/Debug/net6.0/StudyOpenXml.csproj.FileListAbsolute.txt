@@ -1,3 +1,8 @@
+/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.csproj.AssemblyReference.cache
+/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.GeneratedMSBuildEditorConfig.editorconfig
+/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.AssemblyInfoInputs.cache
+/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.AssemblyInfo.cs
+/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.csproj.CoreCompileInputs.cache
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/StudyOpenXml
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/StudyOpenXml.deps.json
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/StudyOpenXml.runtimeconfig.json
@@ -5,11 +10,6 @@
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/StudyOpenXml.pdb
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/DocumentFormat.OpenXml.dll
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/bin/Debug/net6.0/System.IO.Packaging.dll
-/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.csproj.AssemblyReference.cache
-/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.GeneratedMSBuildEditorConfig.editorconfig
-/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.AssemblyInfoInputs.cache
-/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.AssemblyInfo.cs
-/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.csproj.CoreCompileInputs.cache
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.csproj.CopyComplete
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.dll
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/refint/StudyOpenXml.dll

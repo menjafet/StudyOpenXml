@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
+using DocumentFormat.OpenXml.Vml;
 
 namespace StudyOpenXml
 {
@@ -256,8 +257,21 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 var borderColor = "FF8000";
 
                 // Create a TableProperties object and specify its border information.
+
+                //NOTES:
+                //CREATE TBLGRID CHILD OF TBLPROP
+                //GRIDCOLUMN
+
                 var tblProp = new TableProperties();
+                var tableGrid = new TableGrid();
+                var gridCol1 = new GridColumn() { Width = "4000"};
+                var gridCol2 = new GridColumn() { Width = "4000"};
+
+                tableGrid.AppendChild(gridCol1);
+                tableGrid.AppendChild(gridCol2);
+
                 var tblBorder = new TableBorders();
+
 
                 var topBorder = new TopBorder();
                 topBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
@@ -289,6 +303,17 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 insideVerticalBorder.Size = 8;
                 insideVerticalBorder.Color = borderColor;
 
+
+                //see the xml structure and see why needs to use appendChild
+    //< w:tblBorders >
+    //  < w:top w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //  < w:left w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //  < w:bottom w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //  < w:right w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //  < w:insideH w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //  < w:insideV w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
+    //</ w:tblBorders >
+
                 tblBorder.AppendChild(topBorder);
                 tblBorder.AppendChild(bottomBorder);
                 tblBorder.AppendChild(rightBorder);
@@ -297,10 +322,14 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 tblBorder.AppendChild(insideVerticalBorder);
 
                 //tableProperties is parent of TableWidth
-                tblProp.Append(tableWidth);
+                tblProp.AppendChild(tableWidth);
 
                 //same here
                 tblProp.AppendChild(tblBorder);
+
+
+                table.AppendChild(tableGrid);
+                
 
                 table.AppendChild(tblProp);
 

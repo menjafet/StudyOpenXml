@@ -1,13 +1,15 @@
 ﻿<Properties StartupConfiguration="{AB35AB0E-5661-4B38-AA17-4898C4C77AA1}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.StudyOpenXml PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="DocManipulation.cs">
     <Files>
-      <File FileName="DocManipulation.cs" Line="142" Column="10" />
-      <File FileName="Program.cs" Line="5" Column="1" />
+      <File FileName="DocManipulation.cs" Line="74" Column="31" />
+      <File FileName="Program.cs" Line="7" Column="93" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -24,6 +26,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.StudyOpenXml PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
