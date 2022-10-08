@@ -240,36 +240,15 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
             using (WordprocessingDocument wordDocument =
                         WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
             {
-                // Insert other code here
-
-                //This piece is adding the main part of the document
+                //creating the doc
                 MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-
-                //Then, this is creating the structure to manipulate every part of the document
                 mainPart.Document = new Document();
                 var body = mainPart.Document.AppendChild(new Body());
-                // Create an empty table.
-                //Look for table width!!!!!
+
                 Table table = new Table();
-                
 
-                var tableWidth = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };
+                //Table borders
                 var borderColor = "FF8000";
-
-                // Create a TableProperties object and specify its border information.
-
-                //NOTES:
-                //CREATE TBLGRID CHILD OF TBLPROP
-                //GRIDCOLUMN
-
-                var tblProp = new TableProperties();
-                var tableGrid = new TableGrid();
-                var gridCol1 = new GridColumn() { Width = "4000"};
-                var gridCol2 = new GridColumn() { Width = "4000"};
-
-                tableGrid.AppendChild(gridCol1);
-                tableGrid.AppendChild(gridCol2);
-
                 var tblBorder = new TableBorders();
 
 
@@ -304,16 +283,6 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 insideVerticalBorder.Color = borderColor;
 
 
-                //see the xml structure and see why needs to use appendChild
-    //< w:tblBorders >
-    //  < w:top w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //  < w:left w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //  < w:bottom w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //  < w:right w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //  < w:insideH w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //  < w:insideV w:val = "single" w: sz = "4" w: space = "0" w: color = "000000" w: themeColor = "text1" />
-    //</ w:tblBorders >
-
                 tblBorder.AppendChild(topBorder);
                 tblBorder.AppendChild(bottomBorder);
                 tblBorder.AppendChild(rightBorder);
@@ -321,60 +290,113 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 tblBorder.AppendChild(insideHorizontalBorder);
                 tblBorder.AppendChild(insideVerticalBorder);
 
-                //tableProperties is parent of TableWidth
-                tblProp.AppendChild(tableWidth);
+
+                //-----------------------------------------------------------------------------------------
+                //Below is what i need
+
+                var tblProp = new TableProperties();
+                var tableGrid = new TableGrid();
+                var gridCol1 = new GridColumn() { Width = "1" };
+                var gridCol2 = new GridColumn() { Width = "1" };
+
+                TableLayout tl = new TableLayout() { Type = TableLayoutValues.Fixed };
+                tblProp.TableLayout = tl;
+
+                tableGrid.AppendChild(gridCol1);
+                tableGrid.AppendChild(gridCol2);
 
                 //same here
                 tblProp.AppendChild(tblBorder);
 
 
-                table.AppendChild(tableGrid);
+                table.Append(tableGrid);
                 
 
                 table.AppendChild(tblProp);
 
-                // Create a row
-                // look for tablerow alignment!!!!
-                //Here you can manipulate height
                 var row1 = new TableRow();
 
-                // Create a cell.
                 var cell1 = new TableCell();
 
 
                 var cellProp = new TableCellProperties();
-                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto };
+                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto, Width = "900" };
 
-                //AutofitToFirstFixedWidthCell fit = new AutofitToFirstFixedWidthCell();
+                var para = new Paragraph(new Run(new Text("edited2xcgsdgdsgdsgdsgfdsgdfghfdgdsgsdhfsd")));
 
-                var para = new Paragraph(new Run(new Text("edited")));
-
-                // Specify the width property of the table cell.
-                //tc1.Append(new TableCellProperties(
-                //    new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "1440" }));
-
-                // Specify the table cell content.
                 cell1.Append(para);
 
-                // Append the table cell to the table row.
                 row1.Append(cell1);
 
-                // Create a second table cell by copying the OuterXml value of the first table cell.
                 TableCell cell2 = new TableCell(cell1.OuterXml);
 
                 cellProp.AppendChild(cellWidth);
 
                 cell1.AppendChild(cellProp);
 
-                // Append the table cell to the table row.
                 row1.Append(cell2);
 
-                // Append the table row to the table.
                 table.Append(row1);
 
-                // Append the table to the documents body.
                 body.Append(table);
         }
     }
+        //Want to try this on windows machine
+        public static void createTable2(String filepath)
+        {
+
+            using (WordprocessingDocument wordDocument =
+            WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+
+                //This piece is adding the main part of the document
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+
+                //Then, this is creating the structure to manipulate every part of the document
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+
+                Table tbl = new Table();
+
+                TableProperties tableProp = new TableProperties();
+                TableStyle tableStyle = new TableStyle() { Val = "TableGrid" };
+
+                // Make the table width 100% of the page width.
+                TableWidth tableWidth = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };
+
+                tableProp.Append(tableStyle, tableWidth);
+
+                tbl.AppendChild(tableProp);
+
+                //Add n columns to table
+                TableGrid tg = new TableGrid(new GridColumn(), new GridColumn());
+
+                tbl.AppendChild(tg);
+
+                TableRow tr1 = new TableRow();
+
+                //I Manually adjust width of the first column
+                TableCell tc1 = new TableCell(new TableCellWidth { Type = TableWidthUnitValues.Auto }, new Paragraph(new Run(new Text("sdgdsgsdgsdgfds"))));
+
+                //All other column are adjusted based on their content
+                TableCell tc2 = new TableCell(new TableCellWidth { Type = TableWidthUnitValues.Auto}, new Paragraph(new Run(new Text("Title"))));
+
+                tr1.Append(tc1, tc2);
+                tbl.AppendChild(tr1);
+                body.Append(tbl);
+            }
+
+            //This method is only used for headers, while regular rows cells contain no TableCellProperties
+
+        }
+
+        //public static TableCellProperties GenerateTableCellPropsWithWidth(string width = null)
+        //{
+        //    TableCellProperties tcp = new TableCellProperties();
+        //    tcp.AppendChild(width.IsNullOrEmpty()
+        //        ? new TableCellWidth { Type = TableWidthUnitValues.Auto }
+        //        : new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = width });
+        //    return tcp;
+        //}
     }
 }
