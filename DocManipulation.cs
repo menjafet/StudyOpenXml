@@ -296,8 +296,14 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
 
                 var tblProp = new TableProperties();
                 var tableGrid = new TableGrid();
-                var gridCol1 = new GridColumn() { Width = "1" };
-                var gridCol2 = new GridColumn() { Width = "1" };
+                var gridCol1 = new GridColumn();
+                var gridCol2 = new GridColumn();
+
+                TableWidth width = new TableWidth();
+                width.Width = "5000";
+                width.Type = TableWidthUnitValues.Pct;
+
+                TablePropertyExceptions tpE = new TablePropertyExceptions();
 
                 TableLayout tl = new TableLayout() { Type = TableLayoutValues.Fixed };
                 tblProp.TableLayout = tl;
@@ -305,7 +311,8 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 tableGrid.AppendChild(gridCol1);
                 tableGrid.AppendChild(gridCol2);
 
-                //same here
+                tpE.Append(width);
+
                 tblProp.AppendChild(tblBorder);
 
 
@@ -314,15 +321,17 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
 
                 table.AppendChild(tblProp);
 
+                table.AppendChild(tpE);
+
                 var row1 = new TableRow();
 
                 var cell1 = new TableCell();
 
 
                 var cellProp = new TableCellProperties();
-                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto, Width = "900" };
+                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto, Width = "0" };
 
-                var para = new Paragraph(new Run(new Text("edited2xcgsdgdsgdsgdsgfdsgdfghfdgdsgsdhfsd")));
+                var para = new Paragraph(new Run(new Text("holiiiiiiiiiiiiiiiiiiiiiiiii")));
 
                 cell1.Append(para);
 
@@ -335,6 +344,8 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 cell1.AppendChild(cellProp);
 
                 row1.Append(cell2);
+
+                //row1.Append(tpE);
 
                 table.Append(row1);
 
