@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography.X509Certificates;
 using DocumentFormat.OpenXml.Vml;
+using w14 = DocumentFormat.OpenXml.Office2010.Word;
 
 namespace StudyOpenXml
 {
@@ -18,7 +19,7 @@ namespace StudyOpenXml
         }
 
 
-        public static void CreateDocument(string filepath, string styleid, string stylename)
+        public static void createDocument(string filepath, string styleid, string stylename)
         {
             //Path:  /Users/fabianvalverde/Documents/GitHub/StudyOpenXml
 
@@ -74,7 +75,7 @@ namespace StudyOpenXml
                 .ElementAtOrDefault(0);
 
                 //Every element with the ParagraphProperties type
-                if(p.Elements<ParagraphProperties>().Count() == 0)
+                if (p.Elements<ParagraphProperties>().Count() == 0)
                 {
                     //Add ParagraphProperties to the first Paragraph
                     p.PrependChild<ParagraphProperties>(new ParagraphProperties());
@@ -87,7 +88,7 @@ namespace StudyOpenXml
                 //(This is a new document, styles part aren't by default)
                 StyleDefinitionsPart part = wordDocument.MainDocumentPart.StyleDefinitionsPart;
 
-                if(part == null)
+                if (part == null)
                 {
                     part = AddStylesPartToPackage(wordDocument);
                     AddNewStyle(part, styleid, stylename);
@@ -111,25 +112,25 @@ namespace StudyOpenXml
             }
         }
         //inside method
-      /*  string filename = @"C:\Users\Public\Documents\ApplyStyleToParagraph.docx";
+        /*  string filename = @"C:\Users\Public\Documents\ApplyStyleToParagraph.docx";
 
-    using (WordprocessingDocument doc =
-        WordprocessingDocument.Open(filename, true))
-    {
-        // Get the first paragraph.
-        Paragraph p =
-          doc.MainDocumentPart.Document.Body.Descendants<Paragraph>()
-          .ElementAtOrDefault(1);
+      using (WordprocessingDocument doc =
+          WordprocessingDocument.Open(filename, true))
+      {
+          // Get the first paragraph.
+          Paragraph p =
+            doc.MainDocumentPart.Document.Body.Descendants<Paragraph>()
+            .ElementAtOrDefault(1);
 
-        // Check for a null reference. 
-        if (p == null)
-        {
-            throw new ArgumentOutOfRangeException("p",
-                "Paragraph was not found.");
-}
+          // Check for a null reference. 
+          if (p == null)
+          {
+              throw new ArgumentOutOfRangeException("p",
+                  "Paragraph was not found.");
+  }
 
-ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
-    }*/
+  ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
+      }*/
 
         public static StyleDefinitionsPart AddStylesPartToPackage(WordprocessingDocument doc)
         {
@@ -154,7 +155,7 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
             {
                 return false;
             }
-                
+
 
             // Look for a match on styleid.
             //Where the style element in our main document matchs the id and the type Paragraph
@@ -232,8 +233,8 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
 
 
         // Insert a table into a word processing document.
-    public static void CreateTable(string filepath)
-    {
+        public static void createTable(string filepath)
+        {
             // Use the file name and path passed in as an argument 
             // to open an existing Word 2007 document.
 
@@ -292,7 +293,6 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
 
 
                 //-----------------------------------------------------------------------------------------
-                //Below is what i need
 
                 var tblProp = new TableProperties();
                 var tableGrid = new TableGrid();
@@ -303,111 +303,132 @@ ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
                 width.Width = "5000";
                 width.Type = TableWidthUnitValues.Pct;
 
-                TablePropertyExceptions tpE = new TablePropertyExceptions();
-
-                TableLayout tl = new TableLayout() { Type = TableLayoutValues.Fixed };
-                tblProp.TableLayout = tl;
-
                 tableGrid.AppendChild(gridCol1);
                 tableGrid.AppendChild(gridCol2);
 
-                tpE.Append(width);
-
                 tblProp.AppendChild(tblBorder);
 
-
                 table.Append(tableGrid);
-                
-
                 table.AppendChild(tblProp);
 
-                table.AppendChild(tpE);
-
-                var row1 = new TableRow();
+                var para = new Paragraph(new Run(new Text("Working")));
 
                 var cell1 = new TableCell();
-
-
                 var cellProp = new TableCellProperties();
                 var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto, Width = "0" };
-
-                var para = new Paragraph(new Run(new Text("holiiiiiiiiiiiiiiiiiiiiiiiii")));
-
                 cell1.Append(para);
-
-                row1.Append(cell1);
-
+                cellProp.AppendChild(cellWidth);
+                cell1.AppendChild(cellProp);
                 TableCell cell2 = new TableCell(cell1.OuterXml);
 
-                cellProp.AppendChild(cellWidth);
-
-                cell1.AppendChild(cellProp);
-
+                var row1 = new TableRow();
+                row1.Append(cell1);
                 row1.Append(cell2);
-
-                //row1.Append(tpE);
-
                 table.Append(row1);
 
                 body.Append(table);
+            }
         }
-    }
-        //Want to try this on windows machine
-        public static void createTable2(String filepath)
+
+        public static void createCheckBox(string filepath, string internalName, int internalId, string textAfterTextbox)
         {
-
             using (WordprocessingDocument wordDocument =
-            WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+             WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
             {
-
-                //This piece is adding the main part of the document
+                //creating the doc
                 MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-
-                //Then, this is creating the structure to manipulate every part of the document
                 mainPart.Document = new Document();
                 var body = mainPart.Document.AppendChild(new Body());
 
-                Table tbl = new Table();
-
-                TableProperties tableProp = new TableProperties();
-                TableStyle tableStyle = new TableStyle() { Val = "TableGrid" };
-
-                // Make the table width 100% of the page width.
-                TableWidth tableWidth = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };
-
-                tableProp.Append(tableStyle, tableWidth);
-
-                tbl.AppendChild(tableProp);
-
-                //Add n columns to table
-                TableGrid tg = new TableGrid(new GridColumn(), new GridColumn());
-
-                tbl.AppendChild(tg);
-
-                TableRow tr1 = new TableRow();
-
-                //I Manually adjust width of the first column
-                TableCell tc1 = new TableCell(new TableCellWidth { Type = TableWidthUnitValues.Auto }, new Paragraph(new Run(new Text("sdgdsgsdgsdgfds"))));
-
-                //All other column are adjusted based on their content
-                TableCell tc2 = new TableCell(new TableCellWidth { Type = TableWidthUnitValues.Auto}, new Paragraph(new Run(new Text("Title"))));
-
-                tr1.Append(tc1, tc2);
-                tbl.AppendChild(tr1);
-                body.Append(tbl);
+                                var run1 = new Run(
+            new FieldChar(
+                new FormFieldData(
+                    new FormFieldName() { Val = internalName },
+                    new Enabled(),
+                    new CalculateOnExit() { Val = OnOffValue.FromBoolean(false) },
+                    new CheckBox(
+                        new AutomaticallySizeFormField(),
+                        new DefaultCheckBoxFormFieldState() { Val = OnOffValue.FromBoolean(false) }))
+            )
+            {
+                FieldCharType = FieldCharValues.Begin
             }
+        );
+                var run2 = new Run(new FieldCode(" FORMCHECKBOX ") { Space = SpaceProcessingModeValues.Preserve });
+                var run3 = new Run(new FieldChar() { FieldCharType = FieldCharValues.End });
+                var run4 = new Run(new Text(textAfterTextbox));
 
-            //This method is only used for headers, while regular rows cells contain no TableCellProperties
+                Paragraph para = new Paragraph(
+                        run1,
+                        new BookmarkStart() { Name = internalName, Id = new StringValue(internalId.ToString()) },
+                        run2,
+                        run3,
+                        new BookmarkEnd() { Id = new StringValue(internalId.ToString()) },
+                        run4
+                    );
+                body.AppendChild(para);
 
+            }
         }
 
-        //public static TableCellProperties GenerateTableCellPropsWithWidth(string width = null)
-        //{
-        //    TableCellProperties tcp = new TableCellProperties();
-        //    tcp.AppendChild(width.IsNullOrEmpty()
-        //        ? new TableCellWidth { Type = TableWidthUnitValues.Auto }
-        //        : new TableCellWidth { Type = TableWidthUnitValues.Pct, Width = width });
-        //    return tcp;
-        //}
+        public static void createCheckBox2(string filepath)
+        {
+
+            using (WordprocessingDocument wordDocument =
+ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+                //creating the doc
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+                Paragraph paragraph = new Paragraph();
+
+                //SdtBlock block = new SdtBlock(); check google
+                SdtRun sdtRun = new SdtRun();
+                SdtProperties sdtProperties = new SdtProperties();
+                SdtId sdtId = new SdtId() { Val = -15934659 };
+                w14.SdtContentCheckBox sdtContentCheckBox = new w14.SdtContentCheckBox();
+
+                w14.Checked checked1 = new w14.Checked() { Val = w14.OnOffValues.Zero };
+                w14.CheckedState checkedState1 = new w14.CheckedState() { Font = "MS Gothic", Val = "2612" };
+                w14.UncheckedState uncheckedState1 = new w14.UncheckedState() { Font = "MS Gothic", Val = "2610" };
+
+                sdtProperties.Append(sdtId);
+                sdtProperties.Append(sdtContentCheckBox);
+
+                sdtContentCheckBox.Append(checked1);
+                sdtContentCheckBox.Append(checkedState1);
+                sdtContentCheckBox.Append(uncheckedState1);
+
+                //----------------------------------------------------------------------
+
+                SdtContentRun sdtContentRun = new SdtContentRun();
+
+                Run run = new Run();
+                RunProperties runProperties = new RunProperties();
+                RunFonts runFonts = new RunFonts() { Hint = FontTypeHintValues.EastAsia, Ascii = "MS Gothic", HighAnsi = "MS Gothic", EastAsia = "MS Gothic" };
+
+                runProperties.Append(runFonts);
+                Text text1 = new Text();
+                text1.Text = "☐";
+
+                run.Append(runProperties);
+                run.Append(text1);
+
+                Run run2 = new Run();
+
+                Text text2 = new Text();
+                text1.Text = "text";
+
+                run2.AppendChild(text2);
+
+                sdtContentRun.Append(run);
+
+                paragraph.AppendChild(sdtRun);
+                paragraph.AppendChild(run2);
+
+                body.AppendChild(paragraph);
+            }
+        }
     }
 }

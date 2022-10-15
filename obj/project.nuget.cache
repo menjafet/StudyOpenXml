@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "W+16CKZAQf7mMpDh20Z11MPSRrxNMe0DxXYQIr9z5/WNmiZtX+2mXcVpHLhSOdHxpknU042x+DSoEixG6WJj5w==",
+  "dgSpecHash": "S+DkS09APbHR9GWQJuA/vrrI4tR4pTuPk5wITJpQ/pftWbmbkbC2+wJhVeraYRzxakGRFJVVAiHuP8sCVNEnbw==",
   "success": true,
-  "projectFilePath": "/Users/fabianvalverde/Documents/GitHub/StudyOpenXml/StudyOpenXml.csproj",
+  "projectFilePath": "C:\\Users\\Fabia\\OneDrive\\Documents\\GitHub\\StudyOpenXml\\StudyOpenXml.csproj",
   "expectedPackageFiles": [
-    "/Users/fabianvalverde/.nuget/packages/documentformat.openxml/2.18.0/documentformat.openxml.2.18.0.nupkg.sha512",
-    "/Users/fabianvalverde/.nuget/packages/system.io.packaging/4.7.0/system.io.packaging.4.7.0.nupkg.sha512"
+    "C:\\Users\\Fabia\\.nuget\\packages\\documentformat.openxml\\2.18.0\\documentformat.openxml.2.18.0.nupkg.sha512",
+    "C:\\Users\\Fabia\\.nuget\\packages\\system.io.packaging\\4.7.0\\system.io.packaging.4.7.0.nupkg.sha512"
   ],
   "logs": []
 }
