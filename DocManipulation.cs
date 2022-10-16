@@ -393,6 +393,8 @@ namespace StudyOpenXml
                 w14.CheckedState checkedState1 = new w14.CheckedState() { Font = "MS Gothic", Val = "2612" };
                 w14.UncheckedState uncheckedState1 = new w14.UncheckedState() { Font = "MS Gothic", Val = "2610" };
 
+                sdtRun.AppendChild(sdtProperties);
+
                 sdtProperties.Append(sdtId);
                 sdtProperties.Append(sdtContentCheckBox);
 
@@ -415,19 +417,33 @@ namespace StudyOpenXml
                 run.Append(runProperties);
                 run.Append(text1);
 
-                Run run2 = new Run();
-
-                Text text2 = new Text();
-                text1.Text = "text";
-
-                run2.AppendChild(text2);
-
                 sdtContentRun.Append(run);
 
+                //-----------------------------------------------------------------------
+
+                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };
+
+                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };
+
+                sdtRun.Append(sdtContentRun);
+
                 paragraph.AppendChild(sdtRun);
+
+                paragraph.AppendChild(spellStart);
+
+                Run run2 = new Run();
+                Text text2 = new Text();
+                text2.Text = "This is the text";
+                run2.AppendChild(text2);
                 paragraph.AppendChild(run2);
 
+                paragraph.AppendChild(spellEnd);
+
                 body.AppendChild(paragraph);
+
+                
+
+
             }
         }
     }
