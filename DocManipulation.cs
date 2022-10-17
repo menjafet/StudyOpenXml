@@ -378,34 +378,43 @@ namespace StudyOpenXml
                 Paragraph paragraph = new Paragraph();
 
                 //SdtBlock block = new SdtBlock(); check google
-                SdtRun sdtRun = new SdtRun();
-                SdtProperties sdtProperties = new SdtProperties();
-                SdtId sdtId = new SdtId() { Val = -15934659 };
-                w14.SdtContentCheckBox sdtContentCheckBox = new w14.SdtContentCheckBox();
+                SdtRun sdt = new SdtRun();//<w:sdt>
+                SdtProperties sdtPr = new SdtProperties();//<w:sdtPr>
+                SdtId id = new SdtId() { Val = -15934659 };//<w:id>
+                w14.SdtContentCheckBox checkbox = new w14.SdtContentCheckBox();//<w14:checkbox>
+                w14.Checked checkedd = new w14.Checked() { Val = w14.OnOffValues.Zero };//<w14:checked>
+                w14.CheckedState checkedState = new w14.CheckedState() { Font = "MS Gothic", Val = "2612" };//<w14:checkedState>
+                w14.UncheckedState uncheckedState = new w14.UncheckedState() { Font = "MS Gothic", Val = "2610" };//<w14:uncheckedState>
 
-                w14.Checked checked1 = new w14.Checked() { Val = w14.OnOffValues.Zero };
-                w14.CheckedState checkedState1 = new w14.CheckedState() { Font = "MS Gothic", Val = "2612" };
-                w14.UncheckedState uncheckedState1 = new w14.UncheckedState() { Font = "MS Gothic", Val = "2610" };
+                sdt.Append(sdtPr);
 
-                sdtRun.AppendChild(sdtProperties);
+                /*<w:sdtPr>
+                    <w:id w:val="-15934659"/>
+                    <w14:checkbox>
+                        <w14:checked w14:val="1"/>
+                        <w14:checkedState w14:val="2612" w14:font="MS Gothic"/>
+                        <w14:uncheckedState w14:val="2610" w14:font="MS Gothic"/>
+                    </w14:checkbox>
+                </w:sdtPr>*/
 
-                sdtProperties.Append(sdtId);
-                sdtProperties.Append(sdtContentCheckBox);
-
-                sdtContentCheckBox.Append(checked1);
-                sdtContentCheckBox.Append(checkedState1);
-                sdtContentCheckBox.Append(uncheckedState1);
+                //id and checkbox are sdtPr's childs
+                sdtPr.Append(id);
+                sdtPr.Append(checkbox);
+                //and below we can see checkbox's childs
+                checkbox.Append(checkedd);
+                checkbox.Append(checkedState);
+                checkbox.Append(uncheckedState);
 
                 //----------------------------------------------------------------------
 
-                SdtContentRun sdtContentRun = new SdtContentRun();
+                SdtContentRun sdtContentRun = new SdtContentRun();//<w:sdtContent>
 
-                Run run = new Run();
-                RunProperties runProperties = new RunProperties();
-                RunFonts runFonts = new RunFonts() { Hint = FontTypeHintValues.EastAsia, Ascii = "MS Gothic", HighAnsi = "MS Gothic", EastAsia = "MS Gothic" };
+                Run run = new Run();//<w:r>
+                RunProperties runProperties = new RunProperties();//<w:rPr>
+                RunFonts runFonts = new RunFonts() { Hint = FontTypeHintValues.EastAsia, Ascii = "MS Gothic", HighAnsi = "MS Gothic", EastAsia = "MS Gothic" };//<w:rFonts>
 
                 runProperties.Append(runFonts);
-                Text text1 = new Text();
+                Text text1 = new Text();//<w:t>
                 text1.Text = "☐";
 
                 run.Append(runProperties);
@@ -415,13 +424,20 @@ namespace StudyOpenXml
 
                 //-----------------------------------------------------------------------
 
-                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };
+                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
 
-                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };
+                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
 
-                sdtRun.Append(sdtContentRun);
+                sdt.Append(sdtContentRun);
 
-                paragraph.AppendChild(sdtRun);
+                paragraph.AppendChild(sdt);
+
+                //Remember the order we append childs of the same element is important (Paragraph appends)
+                /*<w:proofErr w:type="spellStart"/>
+                    <w:r>
+                        <w:t>Dgdsg</w:t>
+                    </w:r>
+                <w:proofErr w:type="spellEnd"/>*/
 
                 paragraph.AppendChild(spellStart);
 
@@ -434,9 +450,6 @@ namespace StudyOpenXml
                 paragraph.AppendChild(spellEnd);
 
                 body.AppendChild(paragraph);
-
-                
-
 
             }
         }
