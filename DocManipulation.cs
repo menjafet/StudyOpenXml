@@ -35,6 +35,8 @@ namespace StudyOpenXml
                 mainPart.Document = new Document();
                 Body body = mainPart.Document.AppendChild(new Body());
                 Paragraph para = body.AppendChild(new Paragraph());
+                ParagraphProperties paraProperties = new ParagraphProperties();
+                StyleDefinitionsPart styleDefinition = wordDocument.MainDocumentPart.StyleDefinitionsPart;
                 Run run = para.AppendChild(new Run());
 
                 /*Prefer this way:
@@ -52,85 +54,14 @@ namespace StudyOpenXml
 
                 run.AppendChild(new Text("My first text"));
 
-                ////This could be the way to loop and create an .md from .docx
-
-                //Paragraph[] paraArray = new Paragraph[2];
-                //Run[] runArray = new Run[2];
-                //paraArray[0] = body.AppendChild(new Paragraph());
-                //paraArray[1] = body.AppendChild(new Paragraph());
-                //runArray[0] = paraArray[0].AppendChild(new Run());
-                //runArray[1] = paraArray[1].AppendChild(new Run());
-
-                //runArray[0].AppendChild(new Text("Everything Working"));
-                //runArray[1].AppendChild(new Text("We can work now"));
-
-                ////Lets format a Paragraph
-                //ParagraphProperties[] pPr = new ParagraphProperties[2];
-                ParagraphProperties paraProperties = new ParagraphProperties();
-
-
-
-                //Get the first Paragraph of the document
-                Paragraph p = wordDocument.MainDocumentPart.Document.Body.Descendants<Paragraph>()
-                .ElementAtOrDefault(0);
-
-                //Every element with the ParagraphProperties type
-                if (p.Elements<ParagraphProperties>().Count() == 0)
-                {
-                    //Add ParagraphProperties to the first Paragraph
-                    p.PrependChild<ParagraphProperties>(new ParagraphProperties());
-                }
-
-                //Getting the first element Paragraph Properties
-                paraProperties = p.Elements<ParagraphProperties>().First();
-
-                //Looking for the stylespart (not exactly the styles itself) of the document
-                //(This is a new document, styles part aren't by default)
-                StyleDefinitionsPart part = wordDocument.MainDocumentPart.StyleDefinitionsPart;
-
-                if (part == null)
-                {
-                    part = AddStylesPartToPackage(wordDocument);
-                    AddNewStyle(part, styleid, stylename);
-                }
-                else
-                {
-                    if (IsStyleIdInDocument(part, styleid) != true)
-                    {
-                        // No match on styleid, so let's try style name.
-                        string styleidFromName = GetStyleIdFromStyleName(wordDocument, stylename);
-                        if (styleidFromName == null)
-                        {
-                            AddNewStyle(part, styleid, stylename);
-                        }
-                        else
-                            styleid = styleidFromName;
-                    }
-                }
-                // Set the style of the paragraph.
+                //Just an experiment to create an style doc
+                //Have to study this code and below methods better
+                para.PrependChild(paraProperties);
+                styleDefinition = AddStylesPartToPackage(wordDocument);
+                AddNewStyle(styleDefinition, styleid, stylename);
                 paraProperties.ParagraphStyleId = new ParagraphStyleId { Val = styleid };
             }
         }
-        //inside method
-        /*  string filename = @"C:\Users\Public\Documents\ApplyStyleToParagraph.docx";
-
-      using (WordprocessingDocument doc =
-          WordprocessingDocument.Open(filename, true))
-      {
-          // Get the first paragraph.
-          Paragraph p =
-            doc.MainDocumentPart.Document.Body.Descendants<Paragraph>()
-            .ElementAtOrDefault(1);
-
-          // Check for a null reference. 
-          if (p == null)
-          {
-              throw new ArgumentOutOfRangeException("p",
-                  "Paragraph was not found.");
-  }
-
-  ApplyStyleToParagraph(doc, "OverdueAmount", "Overdue Amount", p);
-      }*/
 
         public static StyleDefinitionsPart AddStylesPartToPackage(WordprocessingDocument doc)
         {
@@ -224,65 +155,108 @@ namespace StudyOpenXml
             return styleId;
         }
 
-
-
-
-
-
         //THIS IS FOR TABLE!!!--------------------------------------------------------------------------------------------
 
 
         // Insert a table into a word processing document.
         public static void createTable(string filepath)
         {
-            // Use the file name and path passed in as an argument 
-            // to open an existing Word 2007 document.
+
+            /*This is the structure we want to recreate
+ *    < w:document xmlns:w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main" >
+        < w:body >
+            < w:tbl >
+                < w:tblGrid >
+                    < w:gridCol />
+                    < w:gridCol />
+                </ w:tblGrid >
+                < w:tblPr >
+                    < w:tblBorders >
+                        <w:top/>
+                        <w:bottom/>
+                        <w:right/>
+                        <w:left/>
+                        <w:insideH/>
+                        <w:insideV/>
+                    </ w:tblBorders >
+                </ w:tblPr >
+                < w:tr >
+                    < w:tc >
+                        < w:p >
+                            < w:r >
+                                < w:t > Working </ w:t >
+                            </ w:r >
+                        </ w:p >
+                        < w:tcPr >
+                        </ w:tcPr >
+                    </ w:tc >
+                </ w:tr >
+            </ w:tbl >
+        </ w:body >*/
 
             using (WordprocessingDocument wordDocument =
                         WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
             {
                 //creating the doc
                 MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
-                mainPart.Document = new Document();
-                var body = mainPart.Document.AppendChild(new Body());
+                mainPart.Document = new Document();//<w:document>
+                var body = mainPart.Document.AppendChild(new Body());//<w:body>
+                var table = new Table();//<w:tbl>
+                var tableGrid = new TableGrid();//<w:tblGrid>
+                var gridCol1 = new GridColumn() { };//<w:gridCol/>
+                var gridCol2 = new GridColumn();//<w:gridCol/>
+                var tblPr = new TableProperties();//<w:tblPr>
+                var width = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct};//<w:tblW/>
+                var tblBorder = new TableBorders();//<w:tblBorders>
 
-                Table table = new Table();
 
                 //Table borders
                 var borderColor = "FF8000";
-                var tblBorder = new TableBorders();
 
-
-                var topBorder = new TopBorder();
+                var topBorder = new TopBorder();//<w:top/>
                 topBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 topBorder.Size = 8;
                 topBorder.Color = borderColor;
 
-                var bottomBorder = new BottomBorder();
+                var bottomBorder = new BottomBorder();//<w:bottom/>
                 bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 bottomBorder.Size = 8;
                 bottomBorder.Color = borderColor;
 
-                var rightBorder = new RightBorder();
+                var rightBorder = new RightBorder();//< w:right />
                 rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 rightBorder.Size = 8;
                 rightBorder.Color = borderColor;
 
-                var leftBorder = new LeftBorder();
+                var leftBorder = new LeftBorder();//<w:left/>
                 leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 leftBorder.Size = 8;
                 leftBorder.Color = borderColor;
 
-                var insideHorizontalBorder = new InsideHorizontalBorder();
+                var insideHorizontalBorder = new InsideHorizontalBorder();//<w:insideH/>
                 insideHorizontalBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 insideHorizontalBorder.Size = 8;
                 insideHorizontalBorder.Color = borderColor;
 
-                var insideVerticalBorder = new InsideVerticalBorder();
+                var insideVerticalBorder = new InsideVerticalBorder();//<w:insideV/>
                 insideVerticalBorder.Val = new EnumValue<BorderValues>(BorderValues.Thick);
                 insideVerticalBorder.Size = 8;
                 insideVerticalBorder.Color = borderColor;
 
+               //tblBorder's child
+
+/*             < w:tblPr >
+                   < w:tblBorders >
+                        < w:top />
+                        < w:bottom />
+                        < w:right />
+                        < w:left />
+                        < w:insideH />
+                        < w:insideV />
+                   </ w:tblBorders >
+                </ w:tblPr >               */
+
+                tblPr.AppendChild(tblBorder);
 
                 tblBorder.AppendChild(topBorder);
                 tblBorder.AppendChild(bottomBorder);
@@ -292,39 +266,59 @@ namespace StudyOpenXml
                 tblBorder.AppendChild(insideVerticalBorder);
 
 
+
                 //-----------------------------------------------------------------------------------------
 
-                var tblProp = new TableProperties();
-                var tableGrid = new TableGrid();
-                var gridCol1 = new GridColumn();
-                var gridCol2 = new GridColumn();
 
-                TableWidth width = new TableWidth();
-                width.Width = "5000";
-                width.Type = TableWidthUnitValues.Pct;
+
+
+                //tableGrid's child
+
+                /*                < w:tblGrid >
+                                     < w:gridCol />
+                                     < w:gridCol />
+                                  </ w:tblGrid >     */
+                table.AppendChild(tblPr);//You'll see tblPr before tblGrid
 
                 tableGrid.AppendChild(gridCol1);
                 tableGrid.AppendChild(gridCol2);
 
-                tblProp.AppendChild(tblBorder);
+                //If we check the structure we're following we can see table is parent of tblgrid, tblPr and tblRow
+                table.AppendChild(tableGrid);
 
-                table.Append(tableGrid);
-                table.AppendChild(tblProp);
+                
 
-                var para = new Paragraph(new Run(new Text("Working")));
+                var para = new Paragraph(new Run(new Text("Cell1")));
+                var para2 = new Paragraph(new Run(new Text("Cell2")));
 
-                var cell1 = new TableCell();
-                var cellProp = new TableCellProperties();
-                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Auto, Width = "0" };
-                cell1.Append(para);
+                //Creating content
+                var row1 = new TableRow();//<w:tr>
+
+                var cell1 = new TableCell();//<w:tc>
+                var cellProp = new TableCellProperties();//< w:tcPr >
+                var cellWidth = new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "4000" };
+                cell1.AppendChild(para);
                 cellProp.AppendChild(cellWidth);
                 cell1.AppendChild(cellProp);
-                TableCell cell2 = new TableCell(cell1.OuterXml);
+                
+                
 
-                var row1 = new TableRow();
-                row1.Append(cell1);
+                var cell2 = new TableCell();//<w:tc>
+                var cellProp2 = new TableCellProperties();//<w:tcPr>
+                var cellWidth2 = new TableCellWidth() { Type = TableWidthUnitValues.Dxa, Width = "1000" };
+                cell2.AppendChild(para2);
+                cell2.AppendChild(cellProp2);
+                cellProp2.AppendChild(cellWidth2);
+
+
+                //Here's where the order matters
+                //Where you're appending childs to the same parent
                 row1.Append(cell2);
-                table.Append(row1);
+                row1.Append(cell1);
+                
+
+                table.AppendChild(row1);
+                table.AppendChild(width);//We'll see <w:tblW> child as the last one
 
                 body.Append(table);
             }
@@ -340,16 +334,16 @@ namespace StudyOpenXml
                 mainPart.Document = new Document();
                 var body = mainPart.Document.AppendChild(new Body());
 
-                                var run1 = new Run(
-            new FieldChar(
-                new FormFieldData(
-                    new FormFieldName() { Val = internalName },
-                    new Enabled(),
-                    new CalculateOnExit() { Val = OnOffValue.FromBoolean(false) },
-                    new CheckBox(
-                        new AutomaticallySizeFormField(),
-                        new DefaultCheckBoxFormFieldState() { Val = OnOffValue.FromBoolean(false) }))
-            )
+                var run1 = new Run(
+                                new FieldChar(
+                                    new FormFieldData(
+                                        new FormFieldName() { Val = internalName },
+                                        new Enabled(),
+                                        new CalculateOnExit() { Val = OnOffValue.FromBoolean(false) },
+                                        new CheckBox(
+                                            new AutomaticallySizeFormField(),
+                                            new DefaultCheckBoxFormFieldState() { Val = OnOffValue.FromBoolean(false) }))
+                                )
             {
                 FieldCharType = FieldCharValues.Begin
             }
