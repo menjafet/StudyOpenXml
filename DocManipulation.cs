@@ -453,5 +453,95 @@ namespace StudyOpenXml
 
             }
         }
+
+        public static void changeBackgroundTable(string filepath)
+        {
+            using (WordprocessingDocument wordDocument =
+WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+
+                //creating the doc
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+                var table = new Table();//<w:tbl>
+                var tblPr = new TableProperties();//<w:tblPr>
+                var tblStyle = new TableStyle() { Val = "TableGrid"};
+                var width = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct };//<w:tblW/>
+                var tblBorder = new TableBorders();//<w:tblBorders>
+                var tblLook = new TableLook() { Val = "04A0", FirstRow = true, LastRow = false, FirstColumn = true, 
+                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true };
+
+                var tableGrid = new TableGrid();//<w:tblGrid>
+                var gridCol1 = new GridColumn();//<w:gridCol/>
+
+                var borderColor = "A5A5A5";
+
+                var topBorder = new TopBorder();//<w:top/>
+                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                topBorder.Size = 3;
+                topBorder.Color = borderColor;
+
+                var bottomBorder = new BottomBorder();//<w:bottom/>
+                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                bottomBorder.Size = 3;
+                bottomBorder.Color = borderColor;
+
+                var rightBorder = new RightBorder();//< w:right />
+                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                rightBorder.Size = 3;
+                rightBorder.Color = borderColor;
+
+                var leftBorder = new LeftBorder();//<w:left/>
+                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                leftBorder.Size = 3;
+                leftBorder.Color = borderColor;
+
+                //-----------------------------------------------------------------------------
+
+                var tr = new TableRow();
+                var tc = new TableCell();
+                var tcPr = new TableCellProperties();
+                var tcW = new TableCellWidth();
+                var shd = new Shading();
+
+                var p = new Paragraph();
+
+                var r = new Run();
+
+                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
+
+                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
+            }
+        }
+
+        public static void highlightText(string filepath)
+        {
+            using (WordprocessingDocument wordDocument =
+WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+                var p = new Paragraph();
+
+                var pPr = new ParagraphProperties();
+                var rPr = new RunProperties();
+                var color = new Color();
+
+                var run = new Run();
+
+                var highLight = new Highlight();
+
+                var sectPr = new SectionProperties();
+
+                var pgSz = new PageSize();
+                var pgMar = new PageMargin();
+                var cols = new Columns();
+                var docGrid = new DocGrid();
+
+
+            }
+        }
     }
 }
