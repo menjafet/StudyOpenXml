@@ -7,4 +7,6 @@ Console.WriteLine("Hello, World!");
 //DocManipulation.createCheckBox("C:/Users/Fabia/OneDrive/Documents/tests/SampleFile.docx","check",1,"Todosaliobien?");
 //DocManipulation.createDocument("C:/Users/Fabia/OneDrive/Documents/tests/createDocument.docx", "Heading1", "Normal Style");
 //DocManipulation.createTable("C:/Users/Fabia/OneDrive/Documents/tests/createTable.docx");
-DocManipulation.createCheckBox2("C:/Users/Fabia/OneDrive/Documents/tests/SampleFile.docx");
+//DocManipulation.createCheckBox2("C:/Users/Fabia/OneDrive/Documents/tests/SampleFile.docx");
+//DocManipulation.changeBackgroundTable("C:/Users/Fabia/OneDrive/Documents/tests/BackgroundTable.docx");
+DocManipulation.highlightText("C:/Users/Fabia/OneDrive/Documents/tests/highLight.docx");

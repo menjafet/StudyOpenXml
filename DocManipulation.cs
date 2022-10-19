@@ -467,13 +467,13 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var table = new Table();//<w:tbl>
                 var tblPr = new TableProperties();//<w:tblPr>
                 var tblStyle = new TableStyle() { Val = "TableGrid"};
-                var width = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct };//<w:tblW/>
+                var width = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };//<w:tblW/>
                 var tblBorder = new TableBorders();//<w:tblBorders>
                 var tblLook = new TableLook() { Val = "04A0", FirstRow = true, LastRow = false, FirstColumn = true, 
                     LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true };
 
                 var tableGrid = new TableGrid();//<w:tblGrid>
-                var gridCol1 = new GridColumn();//<w:gridCol/>
+                var gridCol = new GridColumn();//<w:gridCol/>
 
                 var borderColor = "A5A5A5";
 
@@ -503,15 +503,96 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var tc = new TableCell();
                 var tcPr = new TableCellProperties();
                 var tcW = new TableCellWidth();
-                var shd = new Shading();
+                var shd = new Shading() { Color="auto", Fill="F2F2F2" 
+                    };
 
+                var pPr = new ParagraphProperties();
+                var spacing = new SpacingBetweenLines() { After="0" };
                 var p = new Paragraph();
-
                 var r = new Run();
+                var text = new Text() { Text = "Working" };
+
+                //--------------------------------------------------------------------------------------------------------
+
+                body.AppendChild(table);
+                table.AppendChild(tblPr);
+                table.AppendChild(tableGrid);
+                table.AppendChild(tr);
+
+                tblPr.AppendChild(tblStyle);
+                tblPr.AppendChild(width);
+                tblPr.AppendChild(tblBorder);
+                tblPr.AppendChild(tblLook);
+
+                tblBorder.AppendChild(topBorder);
+                tblBorder.AppendChild(bottomBorder);
+                tblBorder.AppendChild(rightBorder);
+                tblBorder.AppendChild(leftBorder);
+
+                
+                tableGrid.AppendChild(gridCol);
+
+                tr.AppendChild(tc);
+                tc.AppendChild(tcPr);
+                tc.AppendChild(p);
+                r.AppendChild(text);
+
+                tcPr.AppendChild(tcW);
+                tcPr.AppendChild(shd);
+                p.AppendChild(pPr);
+                p.AppendChild(r);
+                
+
+                pPr.AppendChild(spacing);
+
+
+                //----------------------------------------------------------------------------------
+
 
                 ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
 
                 ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
+
+                tr = new TableRow();
+                tc = new TableCell();
+                tcPr = new TableCellProperties();
+                tcW = new TableCellWidth();
+
+                pPr = new ParagraphProperties();
+                spacing = new SpacingBetweenLines() { After = "0" };
+                p = new Paragraph();
+                r = new Run();
+                text = new Text() { Text = "Working better" };
+
+                table.AppendChild(tr);
+                tr.AppendChild(tc);
+                tc.AppendChild(tcPr);
+                tc.AppendChild(p);
+                r.AppendChild(text);
+
+                tcPr.AppendChild(tcW);
+                p.AppendChild(spellStart);
+                p.AppendChild(pPr);
+                p.AppendChild(r);
+                p.AppendChild(spellEnd);
+
+                r = new Run();
+                text = new Text() { Text = "Better" };
+
+                spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
+
+                spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
+
+                r.AppendChild(text);
+
+                p.AppendChild(spellStart);
+                p.AppendChild(r);
+                p.AppendChild(spellEnd);
+
+                pPr.AppendChild(spacing);
+
+
+
             }
         }
 
@@ -527,11 +608,12 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
                 var pPr = new ParagraphProperties();
                 var rPr = new RunProperties();
-                var color = new Color();
+                var color = new Color() { Val = "FF7C80" };
 
                 var run = new Run();
+                var text = new Text();
 
-                var highLight = new Highlight();
+                var highLight = new Highlight() { Val= HighlightColorValues.LightGray };
 
                 var sectPr = new SectionProperties();
 
@@ -539,6 +621,19 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var pgMar = new PageMargin();
                 var cols = new Columns();
                 var docGrid = new DocGrid();
+
+            //----------------------------------------------------------------------------------------------
+
+                body.AppendChild(p);
+
+                p.AppendChild(run);
+                run.AppendChild(rPr);
+                rPr.AppendChild(color); 
+                rPr.AppendChild(highLight);
+
+                run.AppendChild(text);
+
+                text.Text = "Cmd";
 
 
             }
