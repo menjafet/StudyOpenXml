@@ -411,7 +411,12 @@ namespace StudyOpenXml
 
                 Run run = new Run();//<w:r>
                 RunProperties runProperties = new RunProperties();//<w:rPr>
-                RunFonts runFonts = new RunFonts() { Hint = FontTypeHintValues.EastAsia, Ascii = "MS Gothic", HighAnsi = "MS Gothic", EastAsia = "MS Gothic" };//<w:rFonts>
+                RunFonts runFonts = new RunFonts() { 
+                    Hint = FontTypeHintValues.EastAsia, 
+                    Ascii = "MS Gothic", 
+                    HighAnsi = "MS Gothic", 
+                    EastAsia = "MS Gothic" 
+                };
 
                 runProperties.Append(runFonts);
                 Text text1 = new Text();//<w:t>
@@ -464,134 +469,127 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
                 mainPart.Document = new Document();
                 var body = mainPart.Document.AppendChild(new Body());
-                var table = new Table();//<w:tbl>
-                var tblPr = new TableProperties();//<w:tblPr>
-                var tblStyle = new TableStyle() { Val = "TableGrid"};
-                var width = new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct };//<w:tblW/>
-                var tblBorder = new TableBorders();//<w:tblBorders>
-                var tblLook = new TableLook() { Val = "04A0", FirstRow = true, LastRow = false, FirstColumn = true, 
-                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true };
+                var table = body.AppendChild(new Table());
+                var tblPr = table.AppendChild(new TableProperties(new TableStyle() { Val = "PlainTable3" },
+                    new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct }));
+                var tblLook = new TableLook()
+                    {
+                        Val = "0400",
+                        FirstRow = false,
+                        LastRow = false,
+                        FirstColumn = false,
+                        LastColumn = false,
+                        NoHorizontalBand = false,
+                        NoVerticalBand = true
+                    };
+                //var tblStyle = tblPr.AppendChild(new TableStyle() { Val = "TableGrid" });
+                //var width = tblPr.AppendChild(new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct });//<w:tblW/>
+                var tblBorder = tblPr.AppendChild(new TableBorders());
+                tblPr.AppendChild(tblLook);
+/*                var tblLook = tblPr.AppendChild(new TableLook() { Val = "0400", FirstRow = false, LastRow = false, FirstColumn = false, 
+                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true });*/
 
-                var tableGrid = new TableGrid();//<w:tblGrid>
-                var gridCol = new GridColumn();//<w:gridCol/>
+                var tableGrid = table.AppendChild(new TableGrid(new GridColumn()));
+                //var gridCol = tableGrid.AppendChild(new GridColumn());
 
                 var borderColor = "A5A5A5";
 
-                var topBorder = new TopBorder();//<w:top/>
-                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                topBorder.Size = 3;
-                topBorder.Color = borderColor;
+                var topBorder = tblBorder.AppendChild(new TopBorder() { 
+                    Val = BorderValues.Single, 
+                    Size = 3, 
+                    Color = borderColor, 
+                    Space = 0 });//<w:top/>
+/*                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                topBorder.Size = 3;     
+                topBorder.Color = borderColor;*/
 
-                var bottomBorder = new BottomBorder();//<w:bottom/>
-                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                var bottomBorder = tblBorder.AppendChild(new BottomBorder() { Val = BorderValues.Single, 
+                    Size = 3, 
+                    Color = borderColor, 
+                    Space = 0 }); ;//<w:bottom/>
+/*                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
                 bottomBorder.Size = 3;
-                bottomBorder.Color = borderColor;
+                bottomBorder.Color = borderColor;*/
 
-                var rightBorder = new RightBorder();//< w:right />
-                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                var rightBorder = tblBorder.AppendChild(new RightBorder() { Val = BorderValues.Single, 
+                    Size = 3, 
+                    Color = borderColor, 
+                    Space = 0 }); ;//< w:right />
+/*                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
                 rightBorder.Size = 3;
-                rightBorder.Color = borderColor;
+                rightBorder.Color = borderColor;*/
 
-                var leftBorder = new LeftBorder();//<w:left/>
-                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                leftBorder.Size = 3;
-                leftBorder.Color = borderColor;
-
+                var leftBorder = tblBorder.AppendChild(new LeftBorder() { Val = BorderValues.Single, 
+                    Size = 3, 
+                    Color = borderColor, 
+                    Space = 0 }); ;//<w:left/>
+                /*                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                                leftBorder.Size = 3;
+                                leftBorder.Color = borderColor;*/
                 //-----------------------------------------------------------------------------
 
-                var tr = new TableRow();
-                var tc = new TableCell();
-                var tcPr = new TableCellProperties();
-                var tcW = new TableCellWidth();
-                var shd = new Shading() { Color="auto", Fill="F2F2F2" 
-                    };
+                StyleDefinitionsPart part = wordDocument.MainDocumentPart.AddNewPart<StyleDefinitionsPart>();
 
-                var pPr = new ParagraphProperties();
-                var spacing = new SpacingBetweenLines() { After="0" };
+
+                //-----------------------------------------------------------------------------
+                //This part is where I need to repeat the code many times
+
+                /*                body.AppendChild(table);
+                                table.AppendChild(tblPr);
+                                table.AppendChild(tableGrid);
+                                table.AppendChild(tr);*/
+
+                /*                tblPr.AppendChild(tblStyle);
+                                tblPr.AppendChild(width);
+                                tblPr.AppendChild(tblBorder);
+                                tblPr.AppendChild(tblLook);*/
+
+                /*                tblBorder.AppendChild(topBorder);
+                                tblBorder.AppendChild(bottomBorder);
+                                tblBorder.AppendChild(rightBorder);
+                                tblBorder.AppendChild(leftBorder);*/
+
+
+                //tableGrid.AppendChild(gridCol);
+
+
+                var tr = new TableRow();
+                var trPr = new TableRowProperties();
+                var cnfStyle = new ConditionalFormatStyle() { Val = "000000100000", FirstRow = false, LastRow = false,
+                    FirstColumn = false, LastColumn = false, OddVerticalBand = false, EvenVerticalBand = false,
+                    OddHorizontalBand = true, EvenHorizontalBand = false, FirstRowFirstColumn = false, FirstRowLastColumn = false,
+                LastRowFirstColumn = false, LastRowLastColumn = false};
+                var tc = new TableCell();
+
                 var p = new Paragraph();
                 var r = new Run();
                 var text = new Text() { Text = "Working" };
 
-                //--------------------------------------------------------------------------------------------------------
-
-                body.AppendChild(table);
-                table.AppendChild(tblPr);
-                table.AppendChild(tableGrid);
                 table.AppendChild(tr);
-
-                tblPr.AppendChild(tblStyle);
-                tblPr.AppendChild(width);
-                tblPr.AppendChild(tblBorder);
-                tblPr.AppendChild(tblLook);
-
-                tblBorder.AppendChild(topBorder);
-                tblBorder.AppendChild(bottomBorder);
-                tblBorder.AppendChild(rightBorder);
-                tblBorder.AppendChild(leftBorder);
-
-                
-                tableGrid.AppendChild(gridCol);
-
+                tr.AppendChild(trPr);
+                trPr.AppendChild(cnfStyle);
                 tr.AppendChild(tc);
-                tc.AppendChild(tcPr);
                 tc.AppendChild(p);
                 r.AppendChild(text);
 
-                tcPr.AppendChild(tcW);
-                tcPr.AppendChild(shd);
-                p.AppendChild(pPr);
                 p.AppendChild(r);
-                
-
-                pPr.AppendChild(spacing);
 
 
                 //----------------------------------------------------------------------------------
 
-
-                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
-
-                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
-
                 tr = new TableRow();
                 tc = new TableCell();
-                tcPr = new TableCellProperties();
-                tcW = new TableCellWidth();
 
-                pPr = new ParagraphProperties();
-                spacing = new SpacingBetweenLines() { After = "0" };
                 p = new Paragraph();
                 r = new Run();
                 text = new Text() { Text = "Working better" };
 
                 table.AppendChild(tr);
                 tr.AppendChild(tc);
-                tc.AppendChild(tcPr);
                 tc.AppendChild(p);
                 r.AppendChild(text);
 
-                tcPr.AppendChild(tcW);
-                p.AppendChild(spellStart);
-                p.AppendChild(pPr);
                 p.AppendChild(r);
-                p.AppendChild(spellEnd);
-
-                r = new Run();
-                text = new Text() { Text = "Better" };
-
-                spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
-
-                spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
-
-                r.AppendChild(text);
-
-                p.AppendChild(spellStart);
-                p.AppendChild(r);
-                p.AppendChild(spellEnd);
-
-                pPr.AppendChild(spacing);
-
-
 
             }
         }
