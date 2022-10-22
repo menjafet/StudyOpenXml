@@ -16,6 +16,11 @@
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.pdb
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/StudyOpenXml.genruntimeconfig.cache
 /Users/fabianvalverde/Documents/GitHub/StudyOpenXml/obj/Debug/net6.0/ref/StudyOpenXml.dll
+C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.csproj.AssemblyReference.cache
+C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.AssemblyInfoInputs.cache
+C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.AssemblyInfo.cs
+C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.csproj.CoreCompileInputs.cache
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\StudyOpenXml.exe
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\StudyOpenXml.deps.json
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\StudyOpenXml.runtimeconfig.json
@@ -23,11 +28,6 @@ C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\StudyOpen
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\StudyOpenXml.pdb
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\bin\Debug\net6.0\System.IO.Packaging.dll
-C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.csproj.AssemblyReference.cache
-C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.AssemblyInfoInputs.cache
-C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.AssemblyInfo.cs
-C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.csproj.CoreCompileInputs.cache
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.csproj.CopyComplete
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.dll
 C:\Users\Fabia\OneDrive\Documents\GitHub\StudyOpenXml\obj\Debug\net6.0\refint\StudyOpenXml.dll
