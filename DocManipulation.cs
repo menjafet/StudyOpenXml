@@ -384,8 +384,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                     new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct }));
                 var tblLook = new TableLook()
                 {
-                    Val = "0400",
-                    FirstRow = true,
+                    FirstRow = false,
                     LastRow = false,
                     FirstColumn = false,
                     LastColumn = false,
@@ -497,33 +496,16 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 //tableGrid.AppendChild(gridCol);
 
 
-                var tr = new TableRow() { RsidTableRowProperties = "00D43B32" };
+                var tr = new TableRow();
                 var trPr = new TableRowProperties();
-                var cnfStyle = new ConditionalFormatStyle()
-                {
-                    Val = "000000100000",
-                    FirstRow = OnOffValue.FromBoolean(false),
-                    LastRow = OnOffValue.FromBoolean(false),
-                    FirstColumn = OnOffValue.FromBoolean(false),
-                    LastColumn = OnOffValue.FromBoolean(false),
-                    OddVerticalBand = OnOffValue.FromBoolean(false),
-                    EvenVerticalBand = OnOffValue.FromBoolean(false),
-                    OddHorizontalBand = OnOffValue.FromBoolean(true),
-                    EvenHorizontalBand = OnOffValue.FromBoolean(false),
-                    FirstRowFirstColumn = OnOffValue.FromBoolean(false),
-                    FirstRowLastColumn = OnOffValue.FromBoolean(false),
-                    LastRowFirstColumn = OnOffValue.FromBoolean(false),
-                    LastRowLastColumn = OnOffValue.FromBoolean(false)
-                };
                 var tc = new TableCell();
 
-                var p = new Paragraph() { RsidParagraphAddition = "00D43B32" };
+                var p = new Paragraph();
                 var r = new Run();
                 var text = new Text() { Text = "Working" };
 
                 table.AppendChild(tr);
                 tr.AppendChild(trPr);
-                trPr.AppendChild(cnfStyle);
                 tr.AppendChild(tc);
                 tc.AppendChild(p);
                 r.AppendChild(text);
@@ -548,6 +530,37 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
                 p.AppendChild(r);
 
+
+                tr = new TableRow();
+                tc = new TableCell();
+
+                p = new Paragraph();
+                r = new Run();
+
+                text = new Text() { Text = "Working better" };
+
+                table.AppendChild(tr);
+                tr.AppendChild(tc);
+                tc.AppendChild(p);
+                r.AppendChild(text);
+
+                p.AppendChild(r);
+
+
+                tr = new TableRow();
+                tc = new TableCell();
+
+                p = new Paragraph();
+                r = new Run();
+
+                text = new Text() { Text = "Working better" };
+
+                table.AppendChild(tr);
+                tr.AppendChild(tc);
+                tc.AppendChild(p);
+                r.AppendChild(text);
+
+                p.AppendChild(r);
             }
         }
 

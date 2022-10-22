@@ -71,13 +71,7 @@ string styleid, string stylename)
                 CustomStyle = true
             };
             StyleName styleName1 = new StyleName() { Val = stylename };
-            BasedOn basedOn1 = new BasedOn() { Val = "TableNormal" };
-            UIPriority uIPriority = new UIPriority() { Val = 43 };
-            Rsid id = new Rsid() { Val = "00D43B32" };
             style.Append(styleName1);
-            style.Append(basedOn1);
-            style.Append(uIPriority);
-            style.Append(id);
             // Create the StyleRunProperties object and specify some of the run properties.
             StyleTableProperties tblStyleTableProperties = new StyleTableProperties();
             ParagraphProperties pPr = new ParagraphProperties(new SpacingBetweenLines()
@@ -87,10 +81,8 @@ string styleid, string stylename)
                 LineRule = LineSpacingRuleValues.Auto
             });
 
-            var tblStylePrBV = new TableStyleProperties() { Type = TableStyleOverrideValues.Band1Vertical };
             var tblStylePrBH = new TableStyleProperties() { Type = TableStyleOverrideValues.Band1Horizontal };
-            TableProperties tblPr = new TableProperties(new TableStyleRowBandSize() { Val = 1 },
-                new TableStyleColumnBandSize() { Val = 1 });
+            TableProperties tblPr = new TableProperties(new TableStyleRowBandSize() { Val = 1 });
             var tcPrBH = new TableCellProperties();
             var tcPrBV = new TableCellProperties();
 
@@ -109,10 +101,8 @@ string styleid, string stylename)
             tcPrBV.AppendChild(shd);
 
             tblStylePrBH.AppendChild(tcPrBH);
-            tblStylePrBV.AppendChild(tcPrBV);
 
             // Add the run properties to the style.
-            style.Append(tblStylePrBV);
             style.Append(tblStylePrBH);
             style.Append(pPr);
             style.Append(tblPr);
