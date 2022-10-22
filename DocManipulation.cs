@@ -58,7 +58,7 @@ namespace StudyOpenXml
                 //Have to study this code and below methods better
                 para.PrependChild(paraProperties);
                 styleDefinition = AddStylesPartToPackage(wordDocument);
-                AddNewStyle(styleDefinition, styleid, stylename);
+                AddNewTableStyle(styleDefinition, styleid, stylename);
                 paraProperties.ParagraphStyleId = new ParagraphStyleId { Val = styleid };
             }
         }
@@ -99,49 +99,70 @@ namespace StudyOpenXml
             return true;
         }
 
-        private static void AddNewStyle(StyleDefinitionsPart styleDefinitionsPart,
-        string styleid, string stylename)
+        public static void AddNewTableStyle(StyleDefinitionsPart styleDefinitionsPart,
+    string styleid, string stylename)
         {
-            // Get access to the root element of the styles part in the main document.
+            // Get access to the root element of the styles part.
             Styles styles = styleDefinitionsPart.Styles;
 
             // Create a new paragraph style and specify some of the properties.
             Style style = new Style()
             {
-                Type = StyleValues.Paragraph,
+                Type = StyleValues.Table,
                 StyleId = styleid,
                 CustomStyle = true
             };
-
-
             StyleName styleName1 = new StyleName() { Val = stylename };
-            BasedOn basedOn1 = new BasedOn() { Val = "Normal" };
-            NextParagraphStyle nextParagraphStyle1 = new NextParagraphStyle() { Val = "Normal" };
+            BasedOn basedOn1 = new BasedOn() { Val = "TableNormal" };
+            UIPriority uIPriority = new UIPriority() { Val=43};
+            Rsid id = new Rsid() { Val = "00D43B32" };
             style.Append(styleName1);
             style.Append(basedOn1);
-            style.Append(nextParagraphStyle1);
-
+            style.Append(uIPriority);
+            style.Append(id);
             // Create the StyleRunProperties object and specify some of the run properties.
-            //This is for the text
-            StyleRunProperties styleRunProperties1 = new StyleRunProperties();
-            Bold bold1 = new Bold();
-            Color color1 = new Color() { ThemeColor = ThemeColorValues.Accent2 };
-            RunFonts font1 = new RunFonts() { Ascii = "Lucida Console" };
-            Italic italic1 = new Italic();
-            // Specify a 12 point size.
-            FontSize fontSize1 = new FontSize() { Val = "24" };
-            styleRunProperties1.Append(bold1);
-            styleRunProperties1.Append(color1);
-            styleRunProperties1.Append(font1);
-            styleRunProperties1.Append(fontSize1);
-            styleRunProperties1.Append(italic1);
+            StyleTableProperties tblStyleTableProperties = new StyleTableProperties();
+            ParagraphProperties pPr = new ParagraphProperties(new SpacingBetweenLines()
+            {
+                After = "0",
+                Line = "240",
+                LineRule = LineSpacingRuleValues.Auto
+            });
+
+            var tblStylePrBV = new TableStyleProperties() { Type = TableStyleOverrideValues.Band1Vertical };
+            var tblStylePrBH = new TableStyleProperties() { Type = TableStyleOverrideValues.Band1Horizontal };
+            TableProperties tblPr = new TableProperties(new TableStyleRowBandSize() { Val = 1 }, 
+                new TableStyleColumnBandSize() { Val = 1});
+            var tcPrBH = new TableCellProperties();
+            var tcPrBV = new TableCellProperties();
+            
+
+            var shd = new Shading()
+            {
+                Color = "auto",
+                Fill = "F2F2F2",
+            };
+            tcPrBH.AppendChild(shd);
+            shd = new Shading()
+            {
+                Color = "auto",
+                Fill = "F2F2F2",
+            };
+            tcPrBV.AppendChild(shd);
+
+            tblStylePrBH.AppendChild(tcPrBH);
+            tblStylePrBV.AppendChild(tcPrBV);
 
             // Add the run properties to the style.
-            style.Append(styleRunProperties1);
+            style.Append(tblStylePrBV);
+            style.Append(tblStylePrBH); 
+            style.Append(pPr);
+            style.Append(tblPr);
 
             // Add the style to the styles part.
             styles.Append(style);
         }
+
 
         // Return styleid that matches the styleName, or null when there's no match.
         public static string GetStyleIdFromStyleName(WordprocessingDocument doc, string styleName)
@@ -206,7 +227,7 @@ namespace StudyOpenXml
                 var gridCol1 = new GridColumn() { };//<w:gridCol/>
                 var gridCol2 = new GridColumn();//<w:gridCol/>
                 var tblPr = new TableProperties();//<w:tblPr>
-                var width = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct};//<w:tblW/>
+                var width = new TableWidth() { Width = "100", Type = TableWidthUnitValues.Pct };//<w:tblW/>
                 var tblBorder = new TableBorders();//<w:tblBorders>
 
 
@@ -243,18 +264,18 @@ namespace StudyOpenXml
                 insideVerticalBorder.Size = 8;
                 insideVerticalBorder.Color = borderColor;
 
-               //tblBorder's child
+                //tblBorder's child
 
-/*             < w:tblPr >
-                   < w:tblBorders >
-                        < w:top />
-                        < w:bottom />
-                        < w:right />
-                        < w:left />
-                        < w:insideH />
-                        < w:insideV />
-                   </ w:tblBorders >
-                </ w:tblPr >               */
+                /*             < w:tblPr >
+                                   < w:tblBorders >
+                                        < w:top />
+                                        < w:bottom />
+                                        < w:right />
+                                        < w:left />
+                                        < w:insideH />
+                                        < w:insideV />
+                                   </ w:tblBorders >
+                                </ w:tblPr >               */
 
                 tblPr.AppendChild(tblBorder);
 
@@ -286,7 +307,7 @@ namespace StudyOpenXml
                 //If we check the structure we're following we can see table is parent of tblgrid, tblPr and tblRow
                 table.AppendChild(tableGrid);
 
-                
+
 
                 var para = new Paragraph(new Run(new Text("Cell1")));
                 var para2 = new Paragraph(new Run(new Text("Cell2")));
@@ -300,8 +321,8 @@ namespace StudyOpenXml
                 cell1.AppendChild(para);
                 cellProp.AppendChild(cellWidth);
                 cell1.AppendChild(cellProp);
-                
-                
+
+
 
                 var cell2 = new TableCell();//<w:tc>
                 var cellProp2 = new TableCellProperties();//<w:tcPr>
@@ -315,7 +336,7 @@ namespace StudyOpenXml
                 //Where you're appending childs to the same parent
                 row1.Append(cell2);
                 row1.Append(cell1);
-                
+
 
                 table.AppendChild(row1);
                 table.AppendChild(width);//We'll see <w:tblW> child as the last one
@@ -344,9 +365,9 @@ namespace StudyOpenXml
                                             new AutomaticallySizeFormField(),
                                             new DefaultCheckBoxFormFieldState() { Val = OnOffValue.FromBoolean(false) }))
                                 )
-            {
-                FieldCharType = FieldCharValues.Begin
-            }
+                                {
+                                    FieldCharType = FieldCharValues.Begin
+                                }
         );
                 var run2 = new Run(new FieldCode(" FORMCHECKBOX ") { Space = SpaceProcessingModeValues.Preserve });
                 var run3 = new Run(new FieldChar() { FieldCharType = FieldCharValues.End });
@@ -411,11 +432,12 @@ namespace StudyOpenXml
 
                 Run run = new Run();//<w:r>
                 RunProperties runProperties = new RunProperties();//<w:rPr>
-                RunFonts runFonts = new RunFonts() { 
-                    Hint = FontTypeHintValues.EastAsia, 
-                    Ascii = "MS Gothic", 
-                    HighAnsi = "MS Gothic", 
-                    EastAsia = "MS Gothic" 
+                RunFonts runFonts = new RunFonts()
+                {
+                    Hint = FontTypeHintValues.EastAsia,
+                    Ascii = "MS Gothic",
+                    HighAnsi = "MS Gothic",
+                    EastAsia = "MS Gothic"
                 };
 
                 runProperties.Append(runFonts);
@@ -473,63 +495,97 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var tblPr = table.AppendChild(new TableProperties(new TableStyle() { Val = "PlainTable3" },
                     new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct }));
                 var tblLook = new TableLook()
-                    {
-                        Val = "0400",
-                        FirstRow = false,
-                        LastRow = false,
-                        FirstColumn = false,
-                        LastColumn = false,
-                        NoHorizontalBand = false,
-                        NoVerticalBand = true
-                    };
+                {
+                    Val = "0400",
+                    FirstRow = true,
+                    LastRow = false,
+                    FirstColumn = false,
+                    LastColumn = false,
+                    NoHorizontalBand = false,
+                    NoVerticalBand = true
+                };
                 //var tblStyle = tblPr.AppendChild(new TableStyle() { Val = "TableGrid" });
                 //var width = tblPr.AppendChild(new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct });//<w:tblW/>
                 var tblBorder = tblPr.AppendChild(new TableBorders());
                 tblPr.AppendChild(tblLook);
-/*                var tblLook = tblPr.AppendChild(new TableLook() { Val = "0400", FirstRow = false, LastRow = false, FirstColumn = false, 
-                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true });*/
+                /*                var tblLook = tblPr.AppendChild(new TableLook() { Val = "0400", FirstRow = false, LastRow = false, FirstColumn = false, 
+                                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true });*/
 
                 var tableGrid = table.AppendChild(new TableGrid(new GridColumn()));
                 //var gridCol = tableGrid.AppendChild(new GridColumn());
 
                 var borderColor = "A5A5A5";
 
-                var topBorder = tblBorder.AppendChild(new TopBorder() { 
-                    Val = BorderValues.Single, 
-                    Size = 3, 
-                    Color = borderColor, 
-                    Space = 0 });//<w:top/>
-/*                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                topBorder.Size = 3;     
-                topBorder.Color = borderColor;*/
+                var topBorder = tblBorder.AppendChild(new TopBorder()
+                {
+                    Val = BorderValues.Single,
+                    Size = 3,
+                    Color = borderColor,
+                    Space = 0
+                });//<w:top/>
+                /*                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                                topBorder.Size = 3;     
+                                topBorder.Color = borderColor;*/
 
-                var bottomBorder = tblBorder.AppendChild(new BottomBorder() { Val = BorderValues.Single, 
-                    Size = 3, 
-                    Color = borderColor, 
-                    Space = 0 }); ;//<w:bottom/>
-/*                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                bottomBorder.Size = 3;
-                bottomBorder.Color = borderColor;*/
+                var bottomBorder = tblBorder.AppendChild(new BottomBorder()
+                {
+                    Val = BorderValues.Single,
+                    Size = 3,
+                    Color = borderColor,
+                    Space = 0
+                }); ;//<w:bottom/>
+                /*                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                                bottomBorder.Size = 3;
+                                bottomBorder.Color = borderColor;*/
 
-                var rightBorder = tblBorder.AppendChild(new RightBorder() { Val = BorderValues.Single, 
-                    Size = 3, 
-                    Color = borderColor, 
-                    Space = 0 }); ;//< w:right />
-/*                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                rightBorder.Size = 3;
-                rightBorder.Color = borderColor;*/
+                var rightBorder = tblBorder.AppendChild(new RightBorder()
+                {
+                    Val = BorderValues.Single,
+                    Size = 3,
+                    Color = borderColor,
+                    Space = 0
+                }); ;//< w:right />
+                /*                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
+                                rightBorder.Size = 3;
+                                rightBorder.Color = borderColor;*/
 
-                var leftBorder = tblBorder.AppendChild(new LeftBorder() { Val = BorderValues.Single, 
-                    Size = 3, 
-                    Color = borderColor, 
-                    Space = 0 }); ;//<w:left/>
+                var leftBorder = tblBorder.AppendChild(new LeftBorder()
+                {
+                    Val = BorderValues.Single,
+                    Size = 3,
+                    Color = borderColor,
+                    Space = 0
+                });//<w:left/>
                 /*                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
                                 leftBorder.Size = 3;
                                 leftBorder.Color = borderColor;*/
                 //-----------------------------------------------------------------------------
 
-                StyleDefinitionsPart part = wordDocument.MainDocumentPart.AddNewPart<StyleDefinitionsPart>();
+                StyleDefinitionsPart part = wordDocument.MainDocumentPart.StyleDefinitionsPart;
+                var styleid = "PlainTable3";
+                var stylename = "Plain Table 3";
 
+                // If the Styles part does not exist, add it and then add the style.
+                if (part == null)
+                {
+                    part = AddStylesPartToPackage(wordDocument);
+                    AddNewTableStyle(part, styleid, stylename);
+                }
+                else
+                {
+                    // If the style is not in the document, add it.
+                    if (IsStyleIdInDocument(part, styleid) != true)
+                    {
+                        // No match on styleid, so let's try style name.
+                        string styleidFromName = GetStyleIdFromStyleName(wordDocument, stylename);
+                        if (styleidFromName == null)
+                        {
+                            AddNewTableStyle(part, styleid, stylename);
+                        }
+                        else
+                            styleid = styleidFromName;
+                    }
+                }
 
                 //-----------------------------------------------------------------------------
                 //This part is where I need to repeat the code many times
@@ -553,15 +609,27 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 //tableGrid.AppendChild(gridCol);
 
 
-                var tr = new TableRow();
+                var tr = new TableRow() { RsidTableRowProperties = "00D43B32" };
                 var trPr = new TableRowProperties();
-                var cnfStyle = new ConditionalFormatStyle() { Val = "000000100000", FirstRow = false, LastRow = false,
-                    FirstColumn = false, LastColumn = false, OddVerticalBand = false, EvenVerticalBand = false,
-                    OddHorizontalBand = true, EvenHorizontalBand = false, FirstRowFirstColumn = false, FirstRowLastColumn = false,
-                LastRowFirstColumn = false, LastRowLastColumn = false};
+                var cnfStyle = new ConditionalFormatStyle()
+                {
+                    Val = "000000100000",
+                    FirstRow = OnOffValue.FromBoolean(false),
+                    LastRow = OnOffValue.FromBoolean(false),
+                    FirstColumn = OnOffValue.FromBoolean(false),
+                    LastColumn = OnOffValue.FromBoolean(false),
+                    OddVerticalBand = OnOffValue.FromBoolean(false),
+                    EvenVerticalBand = OnOffValue.FromBoolean(false),
+                    OddHorizontalBand = OnOffValue.FromBoolean(true),
+                    EvenHorizontalBand = OnOffValue.FromBoolean(false),
+                    FirstRowFirstColumn = OnOffValue.FromBoolean(false),
+                    FirstRowLastColumn = OnOffValue.FromBoolean(false),
+                    LastRowFirstColumn = OnOffValue.FromBoolean(false),
+                    LastRowLastColumn = OnOffValue.FromBoolean(false)
+                };
                 var tc = new TableCell();
 
-                var p = new Paragraph();
+                var p = new Paragraph() { RsidParagraphAddition = "00D43B32" };
                 var r = new Run();
                 var text = new Text() { Text = "Working" };
 
@@ -582,6 +650,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
                 p = new Paragraph();
                 r = new Run();
+                
                 text = new Text() { Text = "Working better" };
 
                 table.AppendChild(tr);
@@ -611,7 +680,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var run = new Run();
                 var text = new Text();
 
-                var highLight = new Highlight() { Val= HighlightColorValues.LightGray };
+                var highLight = new Highlight() { Val = HighlightColorValues.LightGray };
 
                 var sectPr = new SectionProperties();
 
@@ -620,13 +689,13 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var cols = new Columns();
                 var docGrid = new DocGrid();
 
-            //----------------------------------------------------------------------------------------------
+                //----------------------------------------------------------------------------------------------
 
                 body.AppendChild(p);
 
                 p.AppendChild(run);
                 run.AppendChild(rPr);
-                rPr.AppendChild(color); 
+                rPr.AppendChild(color);
                 rPr.AppendChild(highLight);
 
                 run.AppendChild(text);
