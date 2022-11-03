@@ -289,7 +289,7 @@ namespace Documentxml
                 //SdtBlock block = new SdtBlock(); check google
                 SdtRun sdt = new SdtRun();//<w:sdt>
                 SdtProperties sdtPr = new SdtProperties();//<w:sdtPr>
-                SdtId id = new SdtId() { Val = -15934659 };//<w:id>
+                //SdtId id = new SdtId() { Val = -15934659 };//<w:id>
                 w14.SdtContentCheckBox checkbox = new w14.SdtContentCheckBox();//<w14:checkbox>
                 w14.Checked checkedd = new w14.Checked() { Val = w14.OnOffValues.Zero };//<w14:checked>
                 w14.CheckedState checkedState = new w14.CheckedState() { Font = "MS Gothic", Val = "2612" };//<w14:checkedState>
@@ -307,7 +307,7 @@ namespace Documentxml
                 </w:sdtPr>*/
 
                 //id and checkbox are sdtPr's childs
-                sdtPr.Append(id);
+                //sdtPr.Append(id);
                 sdtPr.Append(checkbox);
                 //and below we can see checkbox's childs
                 checkbox.Append(checkedd);
@@ -339,9 +339,9 @@ namespace Documentxml
 
                 //-----------------------------------------------------------------------
 
-                ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
+                //ProofError spellStart = new ProofError() { Type = ProofingErrorValues.SpellStart };//<w:proofErr>
 
-                ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
+                //ProofError spellEnd = new ProofError() { Type = ProofingErrorValues.SpellEnd };//<w:proofErr>
 
                 sdt.Append(sdtContentRun);
 
@@ -530,6 +530,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
                 p.AppendChild(r);
 
+                //--------------------------------------------------------------
 
                 tr = new TableRow();
                 tc = new TableCell();
