@@ -286,7 +286,7 @@ namespace Documentxml
                 var body = mainPart.Document.AppendChild(new Body());
                 Paragraph paragraph = new Paragraph();
 
-                //SdtBlock block = new SdtBlock(); check google
+                //SdtBlock block = new SdtBlock();
                 SdtRun sdt = new SdtRun();//<w:sdt>
                 SdtProperties sdtPr = new SdtProperties();//<w:sdtPr>
                 //SdtId id = new SdtId() { Val = -15934659 };//<w:id>
@@ -319,20 +319,20 @@ namespace Documentxml
                 SdtContentRun sdtContentRun = new SdtContentRun();//<w:sdtContent>
 
                 Run run = new Run();//<w:r>
-                RunProperties runProperties = new RunProperties();//<w:rPr>
+/*                RunProperties runProperties = new RunProperties();//<w:rPr>
                 RunFonts runFonts = new RunFonts()
                 {
                     Hint = FontTypeHintValues.EastAsia,
                     Ascii = "MS Gothic",
                     HighAnsi = "MS Gothic",
                     EastAsia = "MS Gothic"
-                };
+                };*/
 
-                runProperties.Append(runFonts);
+                //runProperties.Append(runFonts);
                 Text text1 = new Text();//<w:t>
                 text1.Text = "☐";
 
-                run.Append(runProperties);
+                //run.Append(runProperties);
                 run.Append(text1);
 
                 sdtContentRun.Append(run);
@@ -354,7 +354,7 @@ namespace Documentxml
                     </w:r>
                 <w:proofErr w:type="spellEnd"/>*/
 
-                paragraph.AppendChild(spellStart);
+                //paragraph.AppendChild(spellStart);
 
                 Run run2 = new Run();
                 Text text2 = new Text();
@@ -362,7 +362,7 @@ namespace Documentxml
                 run2.AppendChild(text2);
                 paragraph.AppendChild(run2);
 
-                paragraph.AppendChild(spellEnd);
+               //paragraph.AppendChild(spellEnd);
 
                 body.AppendChild(paragraph);
 
