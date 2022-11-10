@@ -331,6 +331,7 @@ namespace Documentxml
                 //runProperties.Append(runFonts);
                 Text text1 = new Text();//<w:t>
                 text1.Text = "☐";
+                //☒☐
 
                 //run.Append(runProperties);
                 run.Append(text1);
@@ -380,77 +381,15 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 mainPart.Document = new Document();
                 var body = mainPart.Document.AppendChild(new Body());
                 var table = body.AppendChild(new Table());
-                var tblPr = table.AppendChild(new TableProperties(new TableStyle() { Val = "PlainTable3" },
+                var tblPr = table.AppendChild(new TableProperties(new TableStyle() { Val = "PlainTable43" },
                     new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct }));
-                var tblLook = new TableLook()
-                {
-                    FirstRow = false,
-                    LastRow = false,
-                    FirstColumn = false,
-                    LastColumn = false,
-                    NoHorizontalBand = false,
-                    NoVerticalBand = true
-                };
-                //var tblStyle = tblPr.AppendChild(new TableStyle() { Val = "TableGrid" });
-                //var width = tblPr.AppendChild(new TableWidth() { Width = "5000", Type = TableWidthUnitValues.Pct });//<w:tblW/>
-                var tblBorder = tblPr.AppendChild(new TableBorders());
-                tblPr.AppendChild(tblLook);
-                /*                var tblLook = tblPr.AppendChild(new TableLook() { Val = "0400", FirstRow = false, LastRow = false, FirstColumn = false, 
-                                    LastColumn = false, NoHorizontalBand = false, NoVerticalBand = true });*/
 
                 var tableGrid = table.AppendChild(new TableGrid(new GridColumn()));
-                //var gridCol = tableGrid.AppendChild(new GridColumn());
-
-                var borderColor = "A5A5A5";
-
-                var topBorder = tblBorder.AppendChild(new TopBorder()
-                {
-                    Val = BorderValues.Single,
-                    Size = 3,
-                    Color = borderColor,
-                    Space = 0
-                });//<w:top/>
-                /*                topBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                                topBorder.Size = 3;     
-                                topBorder.Color = borderColor;*/
-
-                var bottomBorder = tblBorder.AppendChild(new BottomBorder()
-                {
-                    Val = BorderValues.Single,
-                    Size = 3,
-                    Color = borderColor,
-                    Space = 0
-                }); ;//<w:bottom/>
-                /*                bottomBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                                bottomBorder.Size = 3;
-                                bottomBorder.Color = borderColor;*/
-
-                var rightBorder = tblBorder.AppendChild(new RightBorder()
-                {
-                    Val = BorderValues.Single,
-                    Size = 3,
-                    Color = borderColor,
-                    Space = 0
-                }); ;//< w:right />
-                /*                rightBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                                rightBorder.Size = 3;
-                                rightBorder.Color = borderColor;*/
-
-                var leftBorder = tblBorder.AppendChild(new LeftBorder()
-                {
-                    Val = BorderValues.Single,
-                    Size = 3,
-                    Color = borderColor,
-                    Space = 0
-                });//<w:left/>
-                /*                leftBorder.Val = new EnumValue<BorderValues>(BorderValues.Single);
-                                leftBorder.Size = 3;
-                                leftBorder.Color = borderColor;*/
                 //-----------------------------------------------------------------------------
 
                 StyleDefinitionsPart part = wordDocument.MainDocumentPart.StyleDefinitionsPart;
-                var styleid = "PlainTable3";
-                var stylename = "Plain Table 3";
+                var styleid = "PlainTable43";
+                var stylename = "Plain Table 43";
 
                 // If the Styles part does not exist, add it and then add the style.
                 if (part == null)
@@ -475,29 +414,8 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 }
 
                 //-----------------------------------------------------------------------------
-                //This part is where I need to repeat the code many times
-
-                /*                body.AppendChild(table);
-                                table.AppendChild(tblPr);
-                                table.AppendChild(tableGrid);
-                                table.AppendChild(tr);*/
-
-                /*                tblPr.AppendChild(tblStyle);
-                                tblPr.AppendChild(width);
-                                tblPr.AppendChild(tblBorder);
-                                tblPr.AppendChild(tblLook);*/
-
-                /*                tblBorder.AppendChild(topBorder);
-                                tblBorder.AppendChild(bottomBorder);
-                                tblBorder.AppendChild(rightBorder);
-                                tblBorder.AppendChild(leftBorder);*/
-
-
-                //tableGrid.AppendChild(gridCol);
-
 
                 var tr = new TableRow();
-                var trPr = new TableRowProperties();
                 var tc = new TableCell();
 
                 var p = new Paragraph();
@@ -505,7 +423,6 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 var text = new Text() { Text = "Working" };
 
                 table.AppendChild(tr);
-                tr.AppendChild(trPr);
                 tr.AppendChild(tc);
                 tc.AppendChild(p);
                 r.AppendChild(text);
@@ -555,6 +472,22 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 r = new Run();
 
                 text = new Text() { Text = "Working better" };
+
+                table.AppendChild(tr);
+                tr.AppendChild(tc);
+                tc.AppendChild(p);
+                r.AppendChild(text);
+
+                p.AppendChild(r);
+
+
+                tr = new TableRow();
+                tc = new TableCell();
+
+                p = new Paragraph();
+                r = new Run();
+
+                text = new Text() { Text = "Working amazing sdgdsgdssssssssssssssssss" };
 
                 table.AppendChild(tr);
                 tr.AppendChild(tc);

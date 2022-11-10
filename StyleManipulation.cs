@@ -72,42 +72,26 @@ string styleid, string stylename)
             };
             StyleName styleName1 = new StyleName() { Val = stylename };
             style.Append(styleName1);
-            // Create the StyleRunProperties object and specify some of the run properties.
-            StyleTableProperties tblStyleTableProperties = new StyleTableProperties();
+
+            var tcPr = new StyleTableCellProperties();
+
+            var shd = tcPr.AppendChild(new Shading()
+            {
+                Color = "auto",
+                Fill = "EDEDED",
+            });
+
+
             ParagraphProperties pPr = new ParagraphProperties(new SpacingBetweenLines()
             {
                 After = "0",
                 Line = "240",
                 LineRule = LineSpacingRuleValues.Auto
             });
-
-            var tblStylePrBH = new TableStyleProperties() { Type = TableStyleOverrideValues.Band1Horizontal };
-            TableProperties tblPr = new TableProperties(new TableStyleRowBandSize() { Val = 1 });
-            var tcPrBH = new TableCellProperties();
-            var tcPrBV = new TableCellProperties();
-
-
-            var shd = new Shading()
-            {
-                Color = "auto",
-                Fill = "F2F2F2",
-            };
-            tcPrBH.AppendChild(shd);
-            shd = new Shading()
-            {
-                Color = "auto",
-                Fill = "F2F2F2",
-            };
-            tcPrBV.AppendChild(shd);
-
-            tblStylePrBH.AppendChild(tcPrBH);
-
-            // Add the run properties to the style.
-            style.Append(tblStylePrBH);
+            
             style.Append(pPr);
-            style.Append(tblPr);
+            style.Append(tcPr);
 
-            // Add the style to the styles part.
             styles.Append(style);
         }
     }
