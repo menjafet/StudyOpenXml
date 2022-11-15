@@ -540,6 +540,38 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
             }
         }
+
+        public static void blockQuote(string filepath)
+        {
+            using (WordprocessingDocument wordDocument =
+WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+
+                //creating the doc
+                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = mainPart.Document.AppendChild(new Body());
+
+                Divs divs = new Divs();
+                Div div = new Div();
+                BlockQuote b = new BlockQuote() { Val = true };
+                Paragraph p = new Paragraph();
+                Run run = new Run(new Text() { Text="hello!"});
+
+                body.AppendChild(divs);
+                divs.AppendChild(div);
+                div.AppendChild(b);
+                div.AppendChild(p);
+                p.AppendChild(run);
+
+                var p2 = new Paragraph();
+                var run2 = new Run(new Text() { Text = "hello! this is worst" });
+
+                body.AppendChild(p2);
+                p2.AppendChild(run2);
+
+            }
+        }
     }
 
 }
