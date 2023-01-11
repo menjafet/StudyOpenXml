@@ -52,3 +52,5 @@ C:\Users\jaftb\Documents\StudyOpenXml\obj\Debug\net6.0\refint\StudyOpenXml.dll
 C:\Users\jaftb\Documents\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.pdb
 C:\Users\jaftb\Documents\StudyOpenXml\obj\Debug\net6.0\StudyOpenXml.genruntimeconfig.cache
 C:\Users\jaftb\Documents\StudyOpenXml\obj\Debug\net6.0\ref\StudyOpenXml.dll
+C:\Users\jaftb\Documents\StudyOpenXml\bin\Debug\net6.0\ClassLibrary1.dll
+C:\Users\jaftb\Documents\StudyOpenXml\bin\Debug\net6.0\ClassLibrary1.pdb

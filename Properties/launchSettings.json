@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "StudyOpenXml": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

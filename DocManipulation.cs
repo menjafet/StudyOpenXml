@@ -14,6 +14,7 @@ using DocumentFormat.OpenXml.Drawing.Diagrams;
 using A = DocumentFormat.OpenXml.Drawing;
 using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
+using System.Net.Http;
 
 namespace Documentxml
 {
@@ -577,111 +578,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
             }
         }
 
-        public static async Task DownloadImageAsync(string directoryPath, string fileName, Uri uri)
-        {
-            using var httpClient = new HttpClient();
-
-            // Get the file extension
-            var uriWithoutQuery = uri.GetLeftPart(UriPartial.Path);
-            var fileExtension = System.IO.Path.GetExtension(uriWithoutQuery);
-
-            // Create file path and ensure directory exists
-            var path = System.IO.Path.Combine(directoryPath, $"{fileName}{fileExtension}");
-            Directory.CreateDirectory(directoryPath);
-
-            // Download the image and write to the file
-            var imageBytes = await httpClient.GetByteArrayAsync(uri);
-            await File.WriteAllBytesAsync(path, imageBytes);
-        }
-
-        public static void InsertAPicture(string document, string fileName)
-        {
-            using (WordprocessingDocument wordprocessingDocument =
-                WordprocessingDocument.Open(document, true))
-            {
-                MainDocumentPart mainPart = wordprocessingDocument.MainDocumentPart;
-
-                 ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
-
-                using (FileStream stream = new FileStream(fileName, FileMode.Open))
-                {
-                    imagePart.FeedData(stream);
-                }
-
-                AddImageToBody(wordprocessingDocument, mainPart.GetIdOfPart(imagePart));
-                //wordprocessingDocument.Close();
-            }
-        }
-
-        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId)
-        {
-            // Define the reference of the image.
-            var element =
-                 new Drawing(
-                     new DW.Inline(
-                         new DW.Extent() { Cx = 990000L, Cy = 792000L },
-                         new DW.EffectExtent()
-                         {
-                             LeftEdge = 0L,
-                             TopEdge = 0L,
-                             RightEdge = 0L,
-                             BottomEdge = 0L
-                         },
-                         new DW.DocProperties()
-                         {
-                             Id = (UInt32Value)1U,
-                             Name = "Picture 1"
-                         },
-                         new DW.NonVisualGraphicFrameDrawingProperties(
-                             new A.GraphicFrameLocks() { NoChangeAspect = true }),
-                         new A.Graphic(
-                             new A.GraphicData(
-                                 new PIC.Picture(
-                                     new PIC.NonVisualPictureProperties(
-                                         new PIC.NonVisualDrawingProperties()
-                                         {
-                                             Id = (UInt32Value)0U,
-                                             Name = "New Bitmap Image.jpg"
-                                         },
-                                         new PIC.NonVisualPictureDrawingProperties()),
-                                     new PIC.BlipFill(
-                                         new A.Blip(
-                                             new A.BlipExtensionList(
-                                                 new A.BlipExtension()
-                                                 {
-                                                     Uri =
-                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}"
-                                                 })
-                                         )
-                                         {
-                                             Embed = relationshipId,
-                                             CompressionState =
-                                             A.BlipCompressionValues.Print
-                                         },
-                                         new A.Stretch(
-                                             new A.FillRectangle())),
-                                     new PIC.ShapeProperties(
-                                         new A.Transform2D(
-                                             new A.Offset() { X = 0L, Y = 0L },
-                                             new A.Extents() { Cx = 990000L, Cy = 792000L }),
-                                         new A.PresetGeometry(
-                                             new A.AdjustValueList()
-                                         )
-                                         { Preset = A.ShapeTypeValues.Rectangle }))
-                             )
-                             { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
-                     )
-                     {
-                         DistanceFromTop = (UInt32Value)0U,
-                         DistanceFromBottom = (UInt32Value)0U,
-                         DistanceFromLeft = (UInt32Value)0U,
-                         DistanceFromRight = (UInt32Value)0U,
-                         EditId = "50D07946"
-                     });
-
-            // Append the reference to body, the element should be in a Run.
-            wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
-        }
+       
 
     }
 
