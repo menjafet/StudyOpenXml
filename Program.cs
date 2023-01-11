@@ -11,6 +11,17 @@ Console.WriteLine("Hello, World!");
 //DocManipulation.changeBackgroundTable("C:/Users/Fabia/OneDrive/Documents/tests/BackgroundTable.docx");
 //DocManipulation.highlightText("C:/Users/Fabia/OneDrive/Documents/tests/highLight.docx");
 //DocManipulation.blockQuote(@"C:\\Users\\jaftb\\Documents\\StudyOpenXml\\tests\\BlockQuote.docx");
+string document = @"C:\Users\jaftb\OneDrive\Escritorio\test\Word9.docx";
+string document2 = @"C:\Users\jaftb\OneDrive\Escritorio\test\Word10.docx";
+try
+{
+    File.Delete(document2);
+    
+}
+finally
+{
+    File.Copy(document, document2);
+}
 
 string fileName = @"C:\Users\jaftb\OneDrive\Escritorio\test\Mypic.jpg";
-DocManipulation.InsertAPicture(@"C:\Users\jaftb\OneDrive\Escritorio\test\image.docx",fileName);
+DocManipulation.InsertAPicture(document2, fileName);

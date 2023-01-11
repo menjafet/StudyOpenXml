@@ -594,14 +594,14 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
             await File.WriteAllBytesAsync(path, imageBytes);
         }
 
-        public static void InsertAPicture(string filepath, string fileName)
+        public static void InsertAPicture(string document, string fileName)
         {
             using (WordprocessingDocument wordprocessingDocument =
-                WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+                WordprocessingDocument.Open(document, true))
             {
-                MainDocumentPart mainPart = wordprocessingDocument.AddMainDocumentPart();
+                MainDocumentPart mainPart = wordprocessingDocument.MainDocumentPart;
 
-                ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
+                 ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
 
                 using (FileStream stream = new FileStream(fileName, FileMode.Open))
                 {
@@ -609,6 +609,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 }
 
                 AddImageToBody(wordprocessingDocument, mainPart.GetIdOfPart(imagePart));
+                //wordprocessingDocument.Close();
             }
         }
 
@@ -668,7 +669,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                                          )
                                          { Preset = A.ShapeTypeValues.Rectangle }))
                              )
-                             { Uri = "https://cdn.discordapp.com/attachments/458291463663386646/592779619212460054/Screenshot_20190624-201411.jpg" })
+                             { Uri = "http://schemas.openxmlformats.org/drawingml/2006/picture" })
                      )
                      {
                          DistanceFromTop = (UInt32Value)0U,
