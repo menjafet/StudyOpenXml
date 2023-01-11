@@ -10,4 +10,7 @@ Console.WriteLine("Hello, World!");
 //DocManipulation.createCheckBox2("C:/Users/Fabia/OneDrive/Documents/tests/checkBox.docx");
 //DocManipulation.changeBackgroundTable("C:/Users/Fabia/OneDrive/Documents/tests/BackgroundTable.docx");
 //DocManipulation.highlightText("C:/Users/Fabia/OneDrive/Documents/tests/highLight.docx");
-DocManipulation.blockQuote("C:/Users/Fabia/OneDrive/Documents/tests/BlockQuote.docx");
+//DocManipulation.blockQuote(@"C:\\Users\\jaftb\\Documents\\StudyOpenXml\\tests\\BlockQuote.docx");
+
+string fileName = @"C:\Users\jaftb\OneDrive\Escritorio\test\Mypic.jpg";
+DocManipulation.InsertAPicture(@"C:\Users\jaftb\OneDrive\Escritorio\test\image.docx",fileName);

@@ -10,6 +10,10 @@ using System.Security.Cryptography.X509Certificates;
 using DocumentFormat.OpenXml.Vml;
 using static Stylexml.StyleManipulation;
 using w14 = DocumentFormat.OpenXml.Office2010.Word;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using A = DocumentFormat.OpenXml.Drawing;
+using DW = DocumentFormat.OpenXml.Drawing.Wordprocessing;
+using PIC = DocumentFormat.OpenXml.Drawing.Pictures;
 
 namespace Documentxml
 {
@@ -319,14 +323,14 @@ namespace Documentxml
                 SdtContentRun sdtContentRun = new SdtContentRun();//<w:sdtContent>
 
                 Run run = new Run();//<w:r>
-/*                RunProperties runProperties = new RunProperties();//<w:rPr>
-                RunFonts runFonts = new RunFonts()
-                {
-                    Hint = FontTypeHintValues.EastAsia,
-                    Ascii = "MS Gothic",
-                    HighAnsi = "MS Gothic",
-                    EastAsia = "MS Gothic"
-                };*/
+                /*                RunProperties runProperties = new RunProperties();//<w:rPr>
+                                RunFonts runFonts = new RunFonts()
+                                {
+                                    Hint = FontTypeHintValues.EastAsia,
+                                    Ascii = "MS Gothic",
+                                    HighAnsi = "MS Gothic",
+                                    EastAsia = "MS Gothic"
+                                };*/
 
                 //runProperties.Append(runFonts);
                 Text text1 = new Text();//<w:t>
@@ -363,7 +367,7 @@ namespace Documentxml
                 run2.AppendChild(text2);
                 paragraph.AppendChild(run2);
 
-               //paragraph.AppendChild(spellEnd);
+                //paragraph.AppendChild(spellEnd);
 
                 body.AppendChild(paragraph);
 
@@ -437,7 +441,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
                 p = new Paragraph();
                 r = new Run();
-                
+
                 text = new Text() { Text = "Working better" };
 
                 table.AppendChild(tr);
@@ -556,7 +560,7 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
                 Div div = new Div();
                 BlockQuote b = new BlockQuote() { Val = true };
                 Paragraph p = new Paragraph();
-                Run run = new Run(new Text() { Text="hello!"});
+                Run run = new Run(new Text() { Text = "hello!" });
 
                 body.AppendChild(divs);
                 divs.AppendChild(div);
@@ -572,6 +576,112 @@ WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
 
             }
         }
+
+        public static async Task DownloadImageAsync(string directoryPath, string fileName, Uri uri)
+        {
+            using var httpClient = new HttpClient();
+
+            // Get the file extension
+            var uriWithoutQuery = uri.GetLeftPart(UriPartial.Path);
+            var fileExtension = System.IO.Path.GetExtension(uriWithoutQuery);
+
+            // Create file path and ensure directory exists
+            var path = System.IO.Path.Combine(directoryPath, $"{fileName}{fileExtension}");
+            Directory.CreateDirectory(directoryPath);
+
+            // Download the image and write to the file
+            var imageBytes = await httpClient.GetByteArrayAsync(uri);
+            await File.WriteAllBytesAsync(path, imageBytes);
+        }
+
+        public static void InsertAPicture(string filepath, string fileName)
+        {
+            using (WordprocessingDocument wordprocessingDocument =
+                WordprocessingDocument.Create(filepath, WordprocessingDocumentType.Document))
+            {
+                MainDocumentPart mainPart = wordprocessingDocument.AddMainDocumentPart();
+
+                ImagePart imagePart = mainPart.AddImagePart(ImagePartType.Jpeg);
+
+                using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                {
+                    imagePart.FeedData(stream);
+                }
+
+                AddImageToBody(wordprocessingDocument, mainPart.GetIdOfPart(imagePart));
+            }
+        }
+
+        private static void AddImageToBody(WordprocessingDocument wordDoc, string relationshipId)
+        {
+            // Define the reference of the image.
+            var element =
+                 new Drawing(
+                     new DW.Inline(
+                         new DW.Extent() { Cx = 990000L, Cy = 792000L },
+                         new DW.EffectExtent()
+                         {
+                             LeftEdge = 0L,
+                             TopEdge = 0L,
+                             RightEdge = 0L,
+                             BottomEdge = 0L
+                         },
+                         new DW.DocProperties()
+                         {
+                             Id = (UInt32Value)1U,
+                             Name = "Picture 1"
+                         },
+                         new DW.NonVisualGraphicFrameDrawingProperties(
+                             new A.GraphicFrameLocks() { NoChangeAspect = true }),
+                         new A.Graphic(
+                             new A.GraphicData(
+                                 new PIC.Picture(
+                                     new PIC.NonVisualPictureProperties(
+                                         new PIC.NonVisualDrawingProperties()
+                                         {
+                                             Id = (UInt32Value)0U,
+                                             Name = "New Bitmap Image.jpg"
+                                         },
+                                         new PIC.NonVisualPictureDrawingProperties()),
+                                     new PIC.BlipFill(
+                                         new A.Blip(
+                                             new A.BlipExtensionList(
+                                                 new A.BlipExtension()
+                                                 {
+                                                     Uri =
+                                                        "{28A0092B-C50C-407E-A947-70E740481C1C}"
+                                                 })
+                                         )
+                                         {
+                                             Embed = relationshipId,
+                                             CompressionState =
+                                             A.BlipCompressionValues.Print
+                                         },
+                                         new A.Stretch(
+                                             new A.FillRectangle())),
+                                     new PIC.ShapeProperties(
+                                         new A.Transform2D(
+                                             new A.Offset() { X = 0L, Y = 0L },
+                                             new A.Extents() { Cx = 990000L, Cy = 792000L }),
+                                         new A.PresetGeometry(
+                                             new A.AdjustValueList()
+                                         )
+                                         { Preset = A.ShapeTypeValues.Rectangle }))
+                             )
+                             { Uri = "https://cdn.discordapp.com/attachments/458291463663386646/592779619212460054/Screenshot_20190624-201411.jpg" })
+                     )
+                     {
+                         DistanceFromTop = (UInt32Value)0U,
+                         DistanceFromBottom = (UInt32Value)0U,
+                         DistanceFromLeft = (UInt32Value)0U,
+                         DistanceFromRight = (UInt32Value)0U,
+                         EditId = "50D07946"
+                     });
+
+            // Append the reference to body, the element should be in a Run.
+            wordDoc.MainDocumentPart.Document.Body.AppendChild(new Paragraph(new Run(element)));
+        }
+
     }
 
 }

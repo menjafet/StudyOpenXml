@@ -90,24 +90,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Fabia\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\jaftb\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Fabia\\OneDrive\\Documents\\GitHub\\StudyOpenXml\\StudyOpenXml.csproj",
+      "projectUniqueName": "C:\\Users\\jaftb\\Documents\\StudyOpenXml\\StudyOpenXml.csproj",
       "projectName": "StudyOpenXml",
-      "projectPath": "C:\\Users\\Fabia\\OneDrive\\Documents\\GitHub\\StudyOpenXml\\StudyOpenXml.csproj",
-      "packagesPath": "C:\\Users\\Fabia\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Fabia\\OneDrive\\Documents\\GitHub\\StudyOpenXml\\obj\\",
+      "projectPath": "C:\\Users\\jaftb\\Documents\\StudyOpenXml\\StudyOpenXml.csproj",
+      "packagesPath": "C:\\Users\\jaftb\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jaftb\\Documents\\StudyOpenXml\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Fabia\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\jaftb\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -154,7 +149,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
